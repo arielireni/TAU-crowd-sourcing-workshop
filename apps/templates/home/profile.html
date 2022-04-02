@@ -21,7 +21,7 @@
         <div class="col-auto my-auto">
           <div class="h-100">
             <h5 class="mb-1">
-              Lee Zamir
+              {{ current_user }}
             </h5>
           </div>
         </div>
@@ -53,7 +53,7 @@
             <hr class="horizontal gray-light my-4">
             <ul class="list-group">
               <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; Lee Zamir </li>
-              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp;leezamir24@gmail.com</li>
+              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp;{{ current_user.email }} </li>
             </ul>
           </div>
         </div>
@@ -68,8 +68,7 @@
 <center>
     <div id="countdown-container">
         <div id="countdown">
-            <span id="days">0d</span> : <span id="hours">0h</span> :
-            <span id="minutes">0m</span> : <span id="seconds">0s</span>
+            <span id="days">0 credits</span>
         </div>
     </div>
 </center>
@@ -88,7 +87,7 @@
                       </h5>
                     </a>
                     <p class="mb-4 text-sm">
-                      you have finished X out of Y required credits
+                      you have finished X out of 122 required credits
                     </p>
                     </div>
                   </div>
