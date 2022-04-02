@@ -52,7 +52,11 @@ let tileSize;
 let canvas;
 let ctx;
 let snake;
-let food;
+let food1;
+let food2;
+let food3;
+let food4;
+let food5;
 let score;
 let isPaused;
 let interval;
@@ -118,6 +122,15 @@ function showScore() {
     ctx.font = "25px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("SCORE: " + score, width - 120, 30);
+
+}
+
+function showQuestion() {
+
+    ctx.textAlign = "center";
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Rate Intro to CS course: ", width-1000, 50);
 
 }
 
@@ -207,7 +220,11 @@ class Snake {
     // Determining whether the snake has eaten a piece of food.
     eat() {
 
-        if (Math.abs(this.x - food.x) < tileSize && Math.abs(this.y - food.y) < tileSize) {
+        if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40) ||
+            (Math.abs(this.x - food2.x) < 40 && Math.abs(this.y - food2.y) < 40) ||
+            (Math.abs(this.x - food3.x) < 40 && Math.abs(this.y - food3.y) < 40) ||
+            (Math.abs(this.x - food4.x) < 40 && Math.abs(this.y - food4.y) < 40) ||
+            (Math.abs(this.x - food5.x) < 40 && Math.abs(this.y - food5.y) < 40)) {
 
             // Adding to the tail.
             this.tail.push({});
@@ -249,20 +266,19 @@ class Snake {
 class Food {
 
     // Initialization of object properties.
-    constructor(pos, color) {
-
+    constructor(id, pos) {
+        this.id = id
         this.x = pos.x;
         this.y = pos.y;
-        this.color = color;
-
     }
 
     // Drawing the food on the canvas.
     draw() {
 
         ctx.beginPath();
-        ctx.rect(this.x, this.y, tileSize, tileSize);
-        ctx.fillStyle = this.color;
+        const image = new Image();
+        image.src = "../../static/assets/img/game/food_" + this.id + ".png"
+        ctx.drawImage(image, this.x, this.y, 50, 50)
         ctx.fill();
         ctx.strokeStyle = "black";
         ctx.lineWidth = 3;
@@ -292,8 +308,11 @@ function init() {
     isPaused = false;
     score = 0;
     snake = new Snake({ x: tileSize * Math.floor(width / (2 * tileSize)), y: tileSize * Math.floor(height / (2 * tileSize)) }, "#39ff14");
-    food = new Food(spawnLocation(), "red");
-
+    food1 = new Food(1, spawnLocation());
+    food2 = new Food(2, spawnLocation());
+    food3 = new Food(3, spawnLocation());
+    food4 = new Food(4, spawnLocation());
+    food5 = new Food(5, spawnLocation());
 }
 
 // Updating the position and redrawing of game objects.
@@ -314,17 +333,26 @@ function update() {
 
     if (snake.eat()) {
         score += 10;
-        food = new Food(spawnLocation(), "red");
+        food1 = new Food(1, spawnLocation());
+        food2 = new Food(2, spawnLocation());
+        food3 = new Food(3, spawnLocation());
+        food4 = new Food(4, spawnLocation());
+        food5 = new Food(5, spawnLocation());
     }
 
     // Clearing the canvas for redrawing.
     ctx.clearRect(0, 0, width, height);
 
 
-    food.draw();
+    food1.draw();
+    food2.draw();
+    food3.draw();
+    food4.draw();
+    food5.draw();
     snake.draw();
     snake.move();
     showScore();
+    showQuestion();
 
 }
 
