@@ -40,13 +40,13 @@ class CoursesLecturers(db.Model):
     __tablename__ = 'CoursesLecturers'
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     lecturer_id = db.Column(db.ForeignKey('Lecturers.id'), primary_key=True)
-    avg_rating = db.Column(db.Float, default=0)
-    num_ratings = db.Column(db.Integer, default=0)
+    year = db.Column(db.Integer)
+    semester = db.Column(db.SMALLINT)  # 0 for a, 1 for b, 2 for summer
     course = db.relationship("Courses", back_populates="lecturers")
     lecturer = db.relationship("Lecturers", back_populates="courses")
 
     def __repr__(self):
-        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
+        return f'{self.lecturer.name} lectured {self.course.name} in {self.year}'
 
 
 class Users(db.Model, UserMixin):
@@ -84,17 +84,17 @@ class Courses(db.Model):
     __tablename__ = 'Courses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    lecturer = db.Column(db.String(26))
+    credit_points = db.Column(db.Integer, default=0)
     users = db.relationship("UsersCourses", back_populates="course")
     questions = db.relationship("CoursesQuestions", back_populates="course")
     lecturers = db.relationship("CoursesLecturers", back_populates="course")
-    credit_points = db.Integer()
 
     def __repr__(self):
-        return f'{self.name} by {self.currLecturer}'
+        return f'{self.id}: {self.name}'
 
 
 class Lecturers(db.Model):
+    __tablename__ = 'Lecturers'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     avg_rating = db.Column(db.Float, default=0)
@@ -125,8 +125,3 @@ def request_loader(request):
     username = request.form.get('username')
     user = Users.query.filter_by(username=username).first()
     return user if user else None
-
-
-if __name__ == '__main__':
-    algo = Courses(id=0, name="Algorithms", currLecturer="Rani Hod")
-    print(algo)
