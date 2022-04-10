@@ -33,8 +33,7 @@ class CoursesQuestions(db.Model):
     question = db.relationship("Courses", back_populates="users")
 
     def __repr__(self):
-        status_repr = ['is taking', 'has finished & did not rate', 'has finished and rated']
-        return f'user {self.user_id} {status_repr[self.status]} course {self.course_id}'
+        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
 
 
 class Users(db.Model, UserMixin):
