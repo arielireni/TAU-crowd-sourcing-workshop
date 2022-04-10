@@ -27,10 +27,23 @@ class CoursesQuestions(db.Model):
     __tablename__ = 'CoursesQuestions'
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     question_id = db.Column(db.ForeignKey('Questions.id'), primary_key=True)
-    avg_rating = db.Column(db.Integer, default=0)
-    ans_count = db.Column(db.Integer, default=0)
+    avg_rating = db.Column(db.Float, default=0)
+    num_ratings = db.Column(db.Integer, default=0)
     course = db.relationship("Courses", back_populates="questions")
     question = db.relationship("Questions", back_populates="courses")
+
+    def __repr__(self):
+        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
+
+
+class CoursesLecturers(db.Model):
+    __tablename__ = 'CoursesLecturers'
+    course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
+    lecturer_id = db.Column(db.ForeignKey('Lecturers.id'), primary_key=True)
+    avg_rating = db.Column(db.Float, default=0)
+    num_ratings = db.Column(db.Integer, default=0)
+    course = db.relationship("Courses", back_populates="lecturers")
+    lecturer = db.relationship("Lecturers", back_populates="courses")
 
     def __repr__(self):
         return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
@@ -46,6 +59,7 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.LargeBinary)
     best_score = db.Column(db.Integer, default=0)
+    credits = db.Column(db.Integer, default=0)
     courses = db.relationship("UsersCourses", back_populates="user")
 
     def __init__(self, **kwargs):
@@ -70,12 +84,25 @@ class Courses(db.Model):
     __tablename__ = 'Courses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    currLecturer = db.Column(db.String(26))
+    lecturer = db.Column(db.String(26))
     users = db.relationship("UsersCourses", back_populates="course")
     questions = db.relationship("CoursesQuestions", back_populates="course")
+    lecturers = db.relationship("CoursesLecturers", back_populates="course")
+    credit_points = db.Integer()
 
     def __repr__(self):
         return f'{self.name} by {self.currLecturer}'
+
+
+class Lecturers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40))
+    avg_rating = db.Column(db.Float, default=0)
+    num_ratings = db.Column(db.Integer, default=0)
+    courses = db.relationship("CoursesLecturers", back_populates="lecturer")
+
+    def __repr__(self):
+        return f'{self.name}, average rating: {self.avg_rating}'
 
 
 class Questions(db.Model):
