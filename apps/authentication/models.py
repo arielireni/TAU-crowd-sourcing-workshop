@@ -30,7 +30,7 @@ class CoursesQuestions(db.Model):
     avg_rating = db.Column(db.Integer, default=0)
     ans_count = db.Column(db.Integer, default=0)
     course = db.relationship("Courses", back_populates="questions")
-    question = db.relationship("Courses", back_populates="users")
+    question = db.relationship("Questions", back_populates="courses")
 
     def __repr__(self):
         return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
