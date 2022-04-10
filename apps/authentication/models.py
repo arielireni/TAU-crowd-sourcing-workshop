@@ -12,6 +12,7 @@ from apps.authentication.util import hash_pass
 
 class UsersCourses(db.Model):
     __tablename__ = 'UsersCourses'
+    # __table_args__ = {'extend_existing': True}
     user_id = db.Column(db.ForeignKey('Users.id'), primary_key=True)
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     status = db.Column(db.SMALLINT)  # 0 for taking rn, 1 for finished & unanswered, 2 for answered
@@ -25,6 +26,7 @@ class UsersCourses(db.Model):
 
 class CoursesQuestions(db.Model):
     __tablename__ = 'CoursesQuestions'
+    # __table_args__ = {'extend_existing': True}
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     question_id = db.Column(db.ForeignKey('Questions.id'), primary_key=True)
     avg_rating = db.Column(db.Float, default=0)
@@ -38,6 +40,7 @@ class CoursesQuestions(db.Model):
 
 class CoursesLecturers(db.Model):
     __tablename__ = 'CoursesLecturers'
+    # __table_args__ = {'extend_existing': True}
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     lecturer_id = db.Column(db.ForeignKey('Lecturers.id'), primary_key=True)
     year = db.Column(db.Integer)
@@ -51,6 +54,7 @@ class CoursesLecturers(db.Model):
 
 class Users(db.Model, UserMixin):
     __tablename__ = 'Users'
+    # __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
@@ -82,6 +86,7 @@ class Users(db.Model, UserMixin):
 
 class Courses(db.Model):
     __tablename__ = 'Courses'
+    # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     credit_points = db.Column(db.Integer, default=0)
@@ -95,6 +100,7 @@ class Courses(db.Model):
 
 class Lecturers(db.Model):
     __tablename__ = 'Lecturers'
+    # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     avg_rating = db.Column(db.Float, default=0)
@@ -107,6 +113,7 @@ class Lecturers(db.Model):
 
 class Questions(db.Model):
     __tablename__ = 'Questions'
+    # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     q_str = db.Column(db.String(200), unique=True, nullable=False)
     courses = db.relationship("CoursesQuestions", back_populates="question")
