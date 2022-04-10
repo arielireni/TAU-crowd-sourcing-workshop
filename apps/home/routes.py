@@ -7,19 +7,28 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+from apps.authentication.models import *
+
+num_recommendations = 5
 
 
 @blueprint.route('/index')
 @login_required
 def index():
-
     return render_template('home/index.html', segment='index')
+
+
+@blueprint.route('/foryou.html')
+def foryou():
+    # TODO: recommendation system
+    segment = get_segment(request)
+    return render_template("home/" + 'foryou.html', segment=segment, courses=Courses.query.all(),
+                           num_recommendations=num_recommendations)
 
 
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
-
     try:
 
         if not template.endswith('.html'):
@@ -40,7 +49,6 @@ def route_template(template):
 
 # Helper - Extract current page name from request
 def get_segment(request):
-
     try:
 
         segment = request.path.split('/')[-1]

@@ -9,14 +9,62 @@ from apps import db, login_manager
 
 from apps.authentication.util import hash_pass
 
-class Users(db.Model, UserMixin):
 
+class UsersCourses(db.Model):
+    __tablename__ = 'UsersCourses'
+    # __table_args__ = {'extend_existing': True}
+    user_id = db.Column(db.ForeignKey('Users.id'), primary_key=True)
+    course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
+    status = db.Column(db.SMALLINT)  # 0 for taking rn, 1 for finished & unanswered, 2 for answered
+    user = db.relationship("Users", back_populates="courses")
+    course = db.relationship("Courses", back_populates="users")
+
+    def __repr__(self):
+        status_repr = ['is taking', 'has finished & did not rate', 'has finished and rated']
+        return f'user {self.user_id} {status_repr[self.status]} course {self.course_id}'
+
+
+class CoursesQuestions(db.Model):
+    __tablename__ = 'CoursesQuestions'
+    # __table_args__ = {'extend_existing': True}
+    course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
+    question_id = db.Column(db.ForeignKey('Questions.id'), primary_key=True)
+    avg_rating = db.Column(db.Float, default=0)
+    num_ratings = db.Column(db.Integer, default=0)
+    course = db.relationship("Courses", back_populates="questions")
+    question = db.relationship("Questions", back_populates="courses")
+
+    def __repr__(self):
+        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
+
+
+class CoursesLecturers(db.Model):
+    __tablename__ = 'CoursesLecturers'
+    # __table_args__ = {'extend_existing': True}
+    course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
+    lecturer_id = db.Column(db.ForeignKey('Lecturers.id'), primary_key=True)
+    year = db.Column(db.Integer)
+    semester = db.Column(db.SMALLINT)  # 0 for a, 1 for b, 2 for summer
+    course = db.relationship("Courses", back_populates="lecturers")
+    lecturer = db.relationship("Lecturers", back_populates="courses")
+
+    def __repr__(self):
+        return f'{self.lecturer.name} lectured {self.course.name} in {self.year}'
+
+
+class Users(db.Model, UserMixin):
     __tablename__ = 'Users'
+    # __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
+    fname = db.Column(db.String(20))
+    lname = db.Column(db.String(20))
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.LargeBinary)
+    best_score = db.Column(db.Integer, default=0)
+    credits = db.Column(db.Integer, default=0)
+    courses = db.relationship("UsersCourses", back_populates="user")
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -34,6 +82,44 @@ class Users(db.Model, UserMixin):
 
     def __repr__(self):
         return str(self.username)
+
+
+class Courses(db.Model):
+    __tablename__ = 'Courses'
+    # __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=True, nullable=False)
+    credit_points = db.Column(db.Integer, default=0)
+    users = db.relationship("UsersCourses", back_populates="course")
+    questions = db.relationship("CoursesQuestions", back_populates="course")
+    lecturers = db.relationship("CoursesLecturers", back_populates="course")
+
+    def __repr__(self):
+        return f'{self.id}: {self.name}'
+
+
+class Lecturers(db.Model):
+    __tablename__ = 'Lecturers'
+    # __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40))
+    avg_rating = db.Column(db.Float, default=0)
+    num_ratings = db.Column(db.Integer, default=0)
+    courses = db.relationship("CoursesLecturers", back_populates="lecturer")
+
+    def __repr__(self):
+        return f'{self.name}, average rating: {self.avg_rating}'
+
+
+class Questions(db.Model):
+    __tablename__ = 'Questions'
+    # __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    q_str = db.Column(db.String(200), unique=True, nullable=False)
+    courses = db.relationship("CoursesQuestions", back_populates="question")
+
+    def __repr__(self):
+        return f'Question #{self.id}: {self.q_str}'
 
 
 @login_manager.user_loader
