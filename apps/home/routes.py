@@ -7,9 +7,7 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from apps.authentication.models import *
-
-num_recommendations = 5
+import apps.recommendations as rs
 
 
 @blueprint.route('/index')
@@ -22,8 +20,8 @@ def index():
 def foryou():
     # TODO: recommendation system
     segment = get_segment(request)
-    return render_template("home/" + 'foryou.html', segment=segment, courses=Courses.query.all(),
-                           num_recommendations=num_recommendations)
+    return render_template("home/" + 'foryou.html', segment=segment, courses=rs.recommend_courses(),
+                           num_recommendations=rs.num_recommendations)
 
 
 @blueprint.route('/<template>')
