@@ -29,13 +29,13 @@ class CoursesQuestions(db.Model):
     # __table_args__ = {'extend_existing': True}
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     question_id = db.Column(db.ForeignKey('Questions.id'), primary_key=True)
-    avg_rating = db.Column(db.Float, default=0)
+    sum_ratings = db.Column(db.Integer, default=0)
     num_ratings = db.Column(db.Integer, default=0)
     course = db.relationship("Courses", back_populates="questions")
     question = db.relationship("Questions", back_populates="courses")
 
     def __repr__(self):
-        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.avg_rating}'
+        return f'avg answer for course {self.course_id} for question {self.question_id}: {self.sum_ratings / self.num_ratings}'
 
 
 class CoursesLecturers(db.Model):
@@ -103,12 +103,12 @@ class Lecturers(db.Model):
     # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
-    avg_rating = db.Column(db.Float, default=0)
+    sum_ratings = db.Column(db.Integer, default=0)
     num_ratings = db.Column(db.Integer, default=0)
     courses = db.relationship("CoursesLecturers", back_populates="lecturer")
 
     def __repr__(self):
-        return f'{self.name}, average rating: {self.avg_rating}'
+        return f'{self.name}, average rating: {self.sum_ratings / self.num_ratings}'
 
 
 class Questions(db.Model):
