@@ -8,6 +8,7 @@ from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 import apps.recommendations as rs
+import apps.questions as qs
 
 
 @blueprint.route('/index')
@@ -23,6 +24,10 @@ def foryou():
     return render_template("home/" + 'foryou.html', segment=segment, courses=rs.recommend_courses(),
                            num_recommendations=rs.num_recommendations)
 
+@blueprint.route('/game.html')
+def game():
+    segment = get_segment(request)
+    return render_template('home/' + 'game.html', segment=segment, questions_to_review=qs.get_questions())
 
 @blueprint.route('/<template>')
 @login_required
