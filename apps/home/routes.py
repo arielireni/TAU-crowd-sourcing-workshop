@@ -16,11 +16,11 @@ def index():
     return render_template('home/index.html', segment='index')
 
 
-@blueprint.route('/foryou.html')
-def foryou():
+@blueprint.route('/for-you.html')
+def for_you():
     # TODO: recommendation system
     segment = get_segment(request)
-    return render_template("home/" + 'foryou.html', segment=segment, courses=rs.recommend_courses(),
+    return render_template("home/" + 'for-you.html', segment=segment, courses=rs.recommend_courses(),
                            num_recommendations=rs.num_recommendations)
 
 
