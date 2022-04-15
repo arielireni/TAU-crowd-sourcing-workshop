@@ -61,6 +61,16 @@ let score;
 let isPaused;
 let interval;
 
+let doneRating = false;
+// TODO: replace with questions from the DB
+let questions = new Map([
+    [0, "Rate overall satisfaction from the course"],
+    [1, "Rate the course's lecturer"],
+    [2, "Rate how relevant the course is"]
+]);
+let ratings = new Map()
+let num_questions = 3
+let curr_question = 0
 
 // Loading the browser window
 window.addEventListener("load",function(){
@@ -125,13 +135,13 @@ function showScore() {
 
 }
 
-function showQuestion() {
-
-    ctx.textAlign = "center";
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText("Rate Intro to CS course: ", width-1000, 50);
-
+function showNextQuestion() {
+    if (curr_question < num_questions) {
+        ctx.textAlign = "center";
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(questions.get(curr_question), width-1000, 50);
+    }
 }
 
 // Showing if the game is paused.
@@ -173,7 +183,7 @@ class Snake {
         ctx.closePath();
 
         // Drawing the tail of the snake.
-        for (var i = 0; i < this.tail.length; i++) {
+        for (let i = 0; i < this.tail.length; i++) {
 
             ctx.beginPath();
             ctx.rect(this.tail[i].x, this.tail[i].y, tileSize, tileSize);
@@ -193,7 +203,7 @@ class Snake {
     move() {
 
         // Movement of the tail.
-        for (var i = this.tail.length - 1; i > 0; i--) {
+        for (let i = this.tail.length - 1; i > 0; i--) {
 
             this.tail[i] = this.tail[i - 1];
 
@@ -217,28 +227,56 @@ class Snake {
 
     }
 
+    // Update the rate of curr_question by the user's rate
+    update_rating(rate) {
+        if (curr_question < num_questions) {
+            ratings.set(curr_question, rate);
+            curr_question++;
+        }
+        if (curr_question == num_questions) {
+            doneRating = true;
+        }
+    }
+
     // Determining whether the snake has eaten a piece of food.
     eat() {
-
-        if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40) ||
-            (Math.abs(this.x - food2.x) < 40 && Math.abs(this.y - food2.y) < 40) ||
-            (Math.abs(this.x - food3.x) < 40 && Math.abs(this.y - food3.y) < 40) ||
-            (Math.abs(this.x - food4.x) < 40 && Math.abs(this.y - food4.y) < 40) ||
-            (Math.abs(this.x - food5.x) < 40 && Math.abs(this.y - food5.y) < 40)) {
-
-            // Adding to the tail.
-            this.tail.push({});
-            return true;
+        if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40)) {
+            this.update_rating(1);
         }
 
-        return false;
+        else if ((Math.abs(this.x - food2.x) < 40 && Math.abs(this.y - food2.y) < 40)) {
+            this.update_rating(2);
+        }
+
+        else if ((Math.abs(this.x - food3.x) < 40 && Math.abs(this.y - food3.y) < 40)) {
+            this.update_rating(3);
+        }
+
+        else if ((Math.abs(this.x - food4.x) < 40 && Math.abs(this.y - food4.y) < 40)) {
+            this.update_rating(4);
+        }
+
+        else if ((Math.abs(this.x - food5.x) < 40 && Math.abs(this.y - food5.y) < 40)) {
+            this.update_rating(5);
+        }
+
+        else {
+            return false;
+        }
+
+        // Adding to the tail.
+        this.tail.push({});
+
+        return true;
 
     }
 
     // Checking if the snake has died.
     die() {
+        // Snake can't die if the user didn't finish to rate
+        if (!doneRating) { return false; }
 
-        for (var i = 0; i < this.tail.length; i++) {
+        for (let i = 0; i < this.tail.length; i++) {
 
             if (Math.abs(this.x - this.tail[i].x) < tileSize && Math.abs(this.y - this.tail[i].y) < tileSize) {
                 return true;
@@ -352,7 +390,7 @@ function update() {
     snake.draw();
     snake.move();
     showScore();
-    showQuestion();
+    showNextQuestion();
 
 }
 
@@ -364,6 +402,9 @@ function game() {
     interval = setInterval(update,1000/fps);
 
 }
+
+// End of JavaScript code
+
                     </script>
                   </body>
               </table>
