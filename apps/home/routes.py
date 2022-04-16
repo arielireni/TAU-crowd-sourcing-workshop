@@ -20,7 +20,6 @@ def index():
 
 @blueprint.route('/for-you.html')
 def for_you():
-    # TODO: recommendation system
     segment = get_segment(request)
     return render_template("home/" + 'for-you.html', segment=segment,
                            courses=rs.recommend_courses(flask_login.current_user))
