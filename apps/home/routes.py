@@ -2,6 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+import flask_login
 
 from apps.home import blueprint
 from flask import render_template, request
@@ -21,13 +22,16 @@ def index():
 def for_you():
     # TODO: recommendation system
     segment = get_segment(request)
-    return render_template("home/" + 'for-you.html', segment=segment, courses=rs.recommend_courses(),
+    return render_template("home/" + 'for-you.html', segment=segment,
+                           courses=rs.recommend_courses(flask_login.current_user),
                            num_recommendations=rs.num_recommendations)
+
 
 @blueprint.route('/game.html')
 def game():
     segment = get_segment(request)
     return render_template('home/' + 'game.html', segment=segment, questions_to_review=qs.get_questions())
+
 
 @blueprint.route('/<template>')
 @login_required
