@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 import flask_login
 
+from apps.authentication.models import *
 from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
@@ -16,6 +17,13 @@ import apps.questions as qs
 @login_required
 def index():
     return render_template('home/index.html', segment='index')
+
+
+@blueprint.route('course=<course_id>')
+def course(course_id):
+    course = Courses.query.filter_by(id=course_id).first()
+    answers = CoursesQuestions.filter_by(course_id=course_id).all()
+    return render_template('home/course.html', course=course, answers = answers)
 
 
 @blueprint.route('/for-you.html')
