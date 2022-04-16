@@ -116,6 +116,7 @@ class Questions(db.Model):
     __tablename__ = 'Questions'
     # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
+    feature = db.Column(db.String(120), nullable=False)
     q_str = db.Column(db.String(200), unique=True, nullable=False)
     courses = db.relationship("CoursesQuestions", back_populates="question")
 
