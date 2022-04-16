@@ -22,8 +22,8 @@ def index():
 @blueprint.route('course=<course_id>')
 def course(course_id):
     course = Courses.query.filter_by(id=course_id).first()
-    answers = CoursesQuestions.filter_by(course_id=course_id).all()
-    return render_template('home/course.html', course=course, answers = answers)
+    answers = CoursesQuestions.query.filter_by(course_id=course_id).all()
+    return render_template('home/course.html', course=course, answers=answers)
 
 
 @blueprint.route('/for-you.html')
