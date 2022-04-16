@@ -16,6 +16,7 @@ class UsersCourses(db.Model):
     user_id = db.Column(db.ForeignKey('Users.id'), primary_key=True)
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     status = db.Column(db.SMALLINT)  # 0 for taking rn, 1 for finished & unanswered, 2 for answered
+    rating = db.Column(db.SMALLINT, default=-1)  # -1 for not rated yet
     user = db.relationship("Users", back_populates="courses")
     course = db.relationship("Courses", back_populates="users")
 
@@ -64,7 +65,7 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.LargeBinary)
     best_score = db.Column(db.Integer, default=0)
     credits = db.Column(db.Integer, default=0)
-    courses = db.relationship("UsersCourses", back_populates="user")
+    courses = db.relationship("UsersCourses", back_populates="user", lazy='dynamic')
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -95,7 +96,7 @@ class Courses(db.Model):
     lecturers = db.relationship("CoursesLecturers", back_populates="course")
 
     def __repr__(self):
-        return f'{self.id}: {self.name}'
+        return f'{self.name}'
 
 
 class Lecturers(db.Model):
