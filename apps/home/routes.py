@@ -23,8 +23,7 @@ def for_you():
     # TODO: recommendation system
     segment = get_segment(request)
     return render_template("home/" + 'for-you.html', segment=segment,
-                           courses=rs.recommend_courses(flask_login.current_user),
-                           num_recommendations=rs.num_recommendations)
+                           courses=rs.recommend_courses(flask_login.current_user))
 
 
 @blueprint.route('/game.html')
