@@ -49,7 +49,8 @@ def collaborative_filtering(curr_user: Users, k=5, thres=0, num_recommendations=
     # print(closest_users)
     recommendations = get_highest_rated_untaken_courses(curr_user, [pair[0] for pair in closest_users])
     # print(recommendations)
-    return [a[0] for a in recommendations[:num_recommendations]]
+    # return [a[0] for a in recommendations[:num_recommendations]]
+    return recommendations[:num_recommendations]
 
 
 def recommend_courses(curr_user: Users):
