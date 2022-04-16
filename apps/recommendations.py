@@ -2,11 +2,8 @@ from sqlalchemy.orm import aliased
 
 from apps.authentication.models import *
 
-num_recommendations = 5
-thres = 0  # we will not consider users with less than this number of courses that current user has taken
 
-
-def get_closest_users(curr_user: Users, k=5):
+def get_closest_users(curr_user: Users, k, thres):
     """ Returns a list of tuples of the form (user_id, avg_rating_diff), sorted by avg_rating_diff, for user_ids that
      have at least thres number of courses that current user has taken. """
     candidates = {}
@@ -29,7 +26,7 @@ def get_closest_users(curr_user: Users, k=5):
 
 
 def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
-    """" Returns a list of """
+    """" Returns a list of untaken courses sorted by the highest average rating from closest_users, descending. """
     taken_courses = [course.course_id for course in curr_user.courses]
     untaken_courses = Courses.query.filter(Courses.id.notin_(taken_courses)).all()
     closest_users_opinions = UsersCourses.query.filter(UsersCourses.user_id.in_(closest_users),
@@ -42,13 +39,13 @@ def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
                 untaken_courses[opinion.course_id][0], untaken_courses[opinion.course_id][1] + opinion.rating,
                 untaken_courses[opinion.course_id][2] + 1)
     untaken_courses = sorted([a for a in untaken_courses.values() if a[2] > 0], key=lambda x: x[1] / x[2], reverse=True)
-    return untaken_courses[:num_recommendations]
+    return untaken_courses
 
 
-def collaborative_filtering(curr_user: Users):
-    # TODO: calculate k
-    k = 1
-    closest_users = get_closest_users(curr_user, k)
+def collaborative_filtering(curr_user: Users, k=5, thres=0, num_recommendations=5):
+    """ returns a list of course recommendations for curr_user, based on the ratings of the k closest users to him
+    (from these who took at least thres courses that curr_user took) on courses that he has not taken. """
+    closest_users = get_closest_users(curr_user, k, thres)
     # print(closest_users)
     recommendations = get_highest_rated_untaken_courses(curr_user, [pair[0] for pair in closest_users])
     # print(recommendations)
