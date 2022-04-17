@@ -20,7 +20,24 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
-                <! here search bar />
+               {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul class="flashes">
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+                {% from "_formhelpers.html" import render_field %}
+                <form method="post">
+                  <dl>
+                    {{ render_field(form.select) }}
+                    <p>
+                    {{ render_field(form.search) }}
+                  </p></dl>
+                  <p><input type="submit" value="Search">
+                </p></form>
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
