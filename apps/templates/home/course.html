@@ -58,6 +58,10 @@
                 font-weight: bold;
             }
 
+            h5 {
+                margin-bottom: 40px;
+            }
+
             .skills:not(:last-child) {
                 margin-bottom: 30px;
             }
@@ -116,6 +120,10 @@
         <div class="container">
             <h2>What To Expect? </h2>
             <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>
+            {% if featurs|length == 0 %}
+                <h5 style="text-align: center">No ratings yet.</h5>
+            {% endif %}
+
             {% for feature in featurs %}
                 <div class="skills">
                     <div class="details">
