@@ -59,6 +59,7 @@ class Users(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
+    image = db.Column(db.String(64), default='default.jpg')  # might change later
     fname = db.Column(db.String(20))
     lname = db.Column(db.String(20))
     email = db.Column(db.String(64), unique=True)
@@ -90,6 +91,7 @@ class Courses(db.Model):
     # __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
+    description = db.Column(db.String(500))
     credit_points = db.Column(db.Integer, default=0)
     users = db.relationship("UsersCourses", back_populates="course")
     questions = db.relationship("CoursesQuestions", back_populates="course")
