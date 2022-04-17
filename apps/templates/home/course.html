@@ -1,0 +1,253 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} {{ course }} {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <head>
+        <title>Glassmorphism Skills Bar</title>
+        <!--Google Font-->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+        <!--Stylesheet-->
+        <style media="screen">
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                height: 100vh;
+                background-color: #0a7aca;
+            }
+
+            .wrapper {
+                width: 40%;
+                min-width: 590px;
+                position: absolute;
+            {#transform: translate(-50%, -50%);#} left: 4%;
+            {#top: 50%;#} display: flex;
+                justify-content: left;
+                flex-direction: column;
+            }
+
+            .container {
+                width: 100%;
+                padding: 30px 30px 50px;
+                background-color: white;
+                border: 2px solid rgba(255, 255, 255, 0.06);
+                border-radius: 10px;
+                box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(10px);
+            }
+
+            .container * {
+                font-family: "Poppins", sans-serif;
+                color: black;
+                font-weight: 500;
+            }
+
+            h2 {
+                margin-bottom: 20px;
+                letter-spacing: 2px;
+                text-align: center;
+                font-size: 33px;
+                font-weight: bold;
+            }
+
+            h5 {
+                margin-bottom: 40px;
+            }
+
+            .skills:not(:last-child) {
+                margin-bottom: 30px;
+            }
+
+            .details {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+
+            .bar {
+                position: relative;
+
+                border: 2px solid #0d96e0;
+
+                border-radius: 20px;
+
+            }
+
+            .bar div {
+                position: relative;
+                width: 0;
+                height: 9px;
+                border-radius: 10px;
+                background-color: #0d96e0;
+
+
+            }
+
+            {% for feature in featurs %}
+                #{{ feature[0] }}-bar {
+                    animation: {{ feature[0] }}-fill 2s forwards;
+                }
+
+
+                @keyframes {{ feature[0] }} -fill {
+                    100% {
+                        width: {{ (feature[2] - 1) * (99/4) + 1 }}%;
+                    }
+                }
+
+            {% endfor %}
+
+
+            .bdge {
+                height: 21px;
+                display: flex;
+                background-color: orange;
+                color: #fff;
+                font-size: 11px;
+                padding: 8px;
+                border-radius: 4px;
+                line-height: 3px
+            }
+
+            .comments {
+                text-decoration: underline;
+                text-underline-position: under;
+                cursor: pointer
+            }
+
+            .dot {
+                height: 7px;
+                width: 7px;
+                margin-top: 3px;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block
+            }
+
+            .hit-voting:hover {
+                color: blue
+            }
+
+            .hit-voting {
+                cursor: pointer
+            }
+
+        </style>
+    </head>
+    <body>
+
+    <h1 style="color: #5e9ca0; text-align: left; transform: translateX(4%)">{{ course.name }}</h1>
+    <h2 style="color: #2e6c80; text-align: left; transform: translateX(4%)">Short Course Description</h2>
+
+    <div class="wrapper">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="container">
+            <h2>What To Expect? </h2>
+            <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>
+            {% for feature in featurs %}
+                <div class="skills">
+                    <div class="details">
+                        <span>{{ feature[1] }}</span>
+                        <span>{{ feature[2] }}</span>
+                    </div>
+                    <div class="bar">
+                        <div id="{{ feature[0] }}-bar"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <p style="text-align: left;"><strong>&nbsp;</strong></p>
+        <p style="text-align: left;"><strong>Have you ever seen a one eyed woman cry</strong></p>
+        <p style="text-align: left;"><strong>&nbsp;</strong></p>
+    </div>
+    </body>
+
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+            <div class="d-flex flex-column col-md-8">
+                <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                    <div class="profile-image"><img class="rounded-circle" src="https://i.imgur.com/t9toMAQ.jpg"
+                                                    width="70"></div>
+                    <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i
+                            class="fa fa-sort-up fa-2x hit-voting"></i><span>127</span><i
+                            class="fa fa-sort-down fa-2x hit-voting"></i></div>
+                    <div class="d-flex flex-column ml-3">
+                        <div class="d-flex flex-row post-title">
+                            <h5>Is sketch 3.9.1 stable?</h5><span class="ml-2">(Jesshead)</span>
+                        </div>
+                        <div class="d-flex flex-row align-items-center align-content-center post-title"><span
+                                class="bdge mr-1">video</span><span class="mr-2 comments">13 comments&nbsp;</span><span
+                                class="mr-2 dot"></span><span>6 hours ago</span></div>
+                    </div>
+                </div>
+                <div class="coment-bottom bg-white p-2 px-4">
+                    <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img
+                            class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg"
+                            width="38"><input type="text" class="form-control mr-3" placeholder="Add comment">
+                        <button class="btn btn-primary" type="button">Comment</button>
+                    </div>
+                    <div class="commented-section mt-2">
+                        <div class="d-flex flex-row align-items-center commented-user">
+                            <h5 class="mr-2">Corey oates</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">4 hours ago</span>
+                        </div>
+                        <div class="comment-text-sm"><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+                        </div>
+                        <div class="reply-section">
+                            <div class="d-flex flex-row align-items-center voting-icons"><i
+                                    class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i
+                                    class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">10</span><span
+                                    class="dot ml-2"></span>
+                                <h6 class="ml-2 mt-1">Reply</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="commented-section mt-2">
+                        <div class="d-flex flex-row align-items-center commented-user">
+                            <h5 class="mr-2">Samoya Johns</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">5 hours ago</span>
+                        </div>
+                        <div class="comment-text-sm"><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..</span>
+                        </div>
+                        <div class="reply-section">
+                            <div class="d-flex flex-row align-items-center voting-icons"><i
+                                    class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i
+                                    class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">15</span><span
+                                    class="dot ml-2"></span>
+                                <h6 class="ml-2 mt-1">Reply</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="commented-section mt-2">
+                        <div class="d-flex flex-row align-items-center commented-user">
+                            <h5 class="mr-2">Makhaya andrew</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">10 hours ago</span>
+                        </div>
+                        <div class="comment-text-sm"><span>Nunc sed id semper risus in hendrerit gravida rutrum. Non odio euismod lacinia at quis risus sed. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Enim facilisis gravida neque convallis a. In mollis nunc sed id. Adipiscing elit pellentesque habitant morbi tristique senectus et netus. Ultrices mi tempus imperdiet nulla malesuada pellentesque.</span>
+                        </div>
+                        <div class="reply-section">
+                            <div class="d-flex flex-row align-items-center voting-icons"><i
+                                    class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i
+                                    class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">25</span><span
+                                    class="dot ml-2"></span>
+                                <h6 class="ml-2 mt-1">Reply</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}
