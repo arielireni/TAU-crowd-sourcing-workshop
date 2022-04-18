@@ -14,100 +14,18 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Search</h6>
+                  <h6>Search Results</h6>
                 </div>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-               {% with messages = get_flashed_messages() %}
-                  {% if messages %}
-                    <ul class="flashes">
-                    {% for message in messages %}
-                      <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-                {% endwith %}
-                {% from "_formhelpers.html" import render_field %}
-                <form method="post">
-                  <dl>
-                    {{ render_field(form.select) }}
-                    <p>
-                    {{ render_field(form.search) }}
-                  </p></dl>
-                  <p><input type="submit" value="Search">
-                </p></form>
-                <table class="table align-items-center mb-0">
-                  <thead>
+                <br/>
+                <table class="table table-hover table-bordered table-striped">
+                {% for course in results %}
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Courses </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Overall grade</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Completion</th>
+                        <td>{{ course.id }} - {{ course.name }}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/static/assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm me-3" alt="jira">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">first</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                           <span class="text-xs font-weight-bold"> 10 </span>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> DONE </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                           <img src="/static/assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm me-3" alt="jira">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">second</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                           <span class="text-xs font-weight-bold"> 3 </span>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> - </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/static/assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm me-3" alt="jira">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">last</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                           <span class="text-xs font-weight-bold"> 5 </span>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> - </span>
-                      </td>
-                    </tr>
-                  </tbody>
+                {% endfor %}
                 </table>
               </div>
             </div>
