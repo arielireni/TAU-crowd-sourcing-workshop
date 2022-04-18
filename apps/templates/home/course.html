@@ -170,7 +170,8 @@
         <div class="shape-2"></div>
         <div class="container">
             <h2>What To Expect? </h2>
-            <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>
+            <br>
+{#            <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>#}
             {% if featurs|length == 0 %}
                 <h5 style="text-align: center">No ratings yet.</h5>
             {% endif %}
@@ -195,7 +196,7 @@
                     <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                         <form method="post">
                             <div class="g-mb-15" style="margin-bottom: 10px">
-                                <textarea name="comment" class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+                                <textarea name="comment" class="form-control" rows="2" placeholder="What do you think about {{ course.name }}?"></textarea>
                             </div>
                             <div class="mar-top clearfix">
                                 <input type="submit" class="btn btn-primary pull-right" value="Sumbit" >
