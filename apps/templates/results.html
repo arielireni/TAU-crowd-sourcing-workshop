@@ -19,9 +19,10 @@
               </div>
             </div>
             <div class="card-body px-0 pb-2">
-                <table>
-                    {{ table }}
-                </table>
+                <br/>
+                {% for course in results %}
+                    {{ course.id }} - {{ course.name }}<br/>
+                {% endfor %}
               </div>
             </div>
           </div>

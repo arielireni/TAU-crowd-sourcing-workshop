@@ -5,14 +5,13 @@ Copyright (c) 2019 - present AppSeed.us
 
 import flask_login
 from apps.home import blueprint
-from flask import render_template, request
+from flask import render_template, request, flash, redirect
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 import apps.recommendations as rs
 import apps.questions as qs
 from apps.home.forms import CourseSearchForm
 from apps.authentication.models import *
-from apps.home.tables import Results
 
 @blueprint.route('/index',methods=['GET','POST'])
 @login_required
@@ -51,9 +50,7 @@ def search_results(search):
         return redirect('/')
     else:
         # display results
-        table = Results(results)
-        table.border = True
-        return render_template('results.html', table=table)
+        return render_template('results.html', results=results)
 
 @blueprint.route('course=<course_id>')
 def course(course_id):
