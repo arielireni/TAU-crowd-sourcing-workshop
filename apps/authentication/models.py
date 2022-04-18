@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_login import UserMixin
-
+from sqlalchemy.sql import func
 from apps import db, login_manager
 
 from apps.authentication.util import hash_pass
@@ -116,6 +116,21 @@ class Questions(db.Model):
 
     def __repr__(self):
         return f'Question #{self.id}: {self.q_str}'
+
+
+class Comments(db.Model):
+    __tablename__ = 'Comments'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    username = db.Column(db.String(64), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('Courses.id'))
+    comment = db.Column(db.String(500), nullable=False)
+    likes = db.Column(db.Integer, default=0)
+    dislikes = db.Column(db.Integer, default=0)
+    time = db.Column(db.DateTime, default=func.now())
+
+    def __repr__(self):
+        return f'{self.comment}'
 
 
 @login_manager.user_loader
