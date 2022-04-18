@@ -5,7 +5,7 @@ from apps.home.forms import CourseSearchForm
 from apps.authentication.models import *
 
 
-@blueprint.route('/index', methods=['GET', 'POST'])
+@blueprint.route('/index.html', methods=['GET', 'POST'])
 @login_required
 def index():
     search = CourseSearchForm(request.form)

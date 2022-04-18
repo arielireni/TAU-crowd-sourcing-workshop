@@ -50,6 +50,20 @@ class CoursesLecturers(db.Model):
         return f'{self.lecturer.name} lectured {self.course.name} in {self.year}'
 
 
+class UsersComments(db.Model):
+    __tablename__ = 'UsersComments'
+    user_id = db.Column(db.ForeignKey('Users.id'), primary_key=True)
+    comment_id = db.Column(db.ForeignKey('Comments.id'), primary_key=True)
+    course_id = db.Column(db.ForeignKey('Courses.id'))
+    is_author = db.Column(db.Boolean, nullable=False)
+    like_status = db.Column(db.SMALLINT, default=0)  # 0 for not liked, 1 for liked, 2 for disliked
+    user = db.relationship("Users", back_populates="comments")
+    comment = db.relationship("Comments", back_populates="users")
+
+    def __repr__(self):
+        return f'user {self.user_id} interacted with comment {self.comment_id}'
+
+
 class Users(db.Model, UserMixin):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +76,7 @@ class Users(db.Model, UserMixin):
     best_score = db.Column(db.Integer, default=0)
     credits = db.Column(db.Integer, default=0)
     courses = db.relationship("UsersCourses", back_populates="user", lazy='dynamic')
+    comments = db.relationship("UsersComments", back_populates="user", lazy='dynamic')
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -121,13 +136,13 @@ class Questions(db.Model):
 class Comments(db.Model):
     __tablename__ = 'Comments'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     username = db.Column(db.String(64), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('Courses.id'))
     comment = db.Column(db.String(500), nullable=False)
     likes = db.Column(db.Integer, default=0)
     dislikes = db.Column(db.Integer, default=0)
     time = db.Column(db.DateTime, default=func.now())
+    users = db.relationship("UsersComments", back_populates="comment")
 
     def __repr__(self):
         return f'{self.comment}'
