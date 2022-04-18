@@ -20,9 +20,13 @@
             </div>
             <div class="card-body px-0 pb-2">
                 <br/>
+                <table class="table table-hover table-bordered table-striped">
                 {% for course in results %}
-                    {{ course.id }} - {{ course.name }}<br/>
+                    <tr>
+                        <td>{{ course.id }} - {{ course.name }}</td>
+                    </tr>
                 {% endfor %}
+                </table>
               </div>
             </div>
           </div>
