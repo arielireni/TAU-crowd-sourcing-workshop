@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for, render_template_string
+from flask import render_template, redirect, request, url_for, render_template_string, jsonify
 from flask_login import current_user, login_required
 from apps.authentication import blueprint
 from apps.authentication.models import *
@@ -52,40 +52,93 @@ def course(course_id):
                            comments_dislikes=comments_dislikes)
 
 
+# @login_required
+# @blueprint.route('course=<course_id>&like_comment=<comment_id>')
+# def like_comment(course_id, comment_id):
+#     user = current_user
+#     user_comment = UsersComments.query.filter_by(user_id=user.id, course_id=course_id, comment_id=comment_id).first()
+#     if user_comment is None:
+#         user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author=False, comment_id=comment_id,
+#                                      like_status=1)
+#         db.session.add(user_comment)
+#         db.session.commit()
+#     else:
+#         if user_comment.like_status == 1:
+#             user_comment.like_status = 0
+#         else:
+#             user_comment.like_status = 1
+#         db.session.commit()
+#     return redirect(url_for('authentication_blueprint.course', course_id=course_id))
+
+
+# @login_required
+# @blueprint.route('course=<course_id>&dislike_comment=<comment_id>')
+# def dislike_comment(course_id, comment_id):
+#     user = current_user
+#     user_comment = UsersComments.query.filter_by(user_id=user.id, course_id=course_id, comment_id=comment_id).first()
+#     if user_comment is None:
+#         user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author = False, comment_id=comment_id, like_status=-1)
+#         db.session.add(user_comment)
+#         db.session.commit()
+#     else:
+#         if user_comment.like_status == 2:
+#             user_comment.like_status = 0
+#         else:
+#             user_comment.like_status = 2
+#         db.session.commit()
+#     return redirect(url_for('authentication_blueprint.course', course_id=course_id))
+
+
 @login_required
-@blueprint.route('course=<course_id>&like_comment=<comment_id>')
+@blueprint.route('background_like/course=<course_id>&comment=<comment_id>')
 def like_comment(course_id, comment_id):
+    like_color = 'green'
     user = current_user
     user_comment = UsersComments.query.filter_by(user_id=user.id, course_id=course_id, comment_id=comment_id).first()
+    comment = Comments.query.filter_by(id=comment_id).first()
     if user_comment is None:
-        user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author = False, comment_id=comment_id, like_status=1)
+        user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author=False, comment_id=comment_id,
+                                     like_status=1)
         db.session.add(user_comment)
         db.session.commit()
     else:
         if user_comment.like_status == 1:
             user_comment.like_status = 0
+            like_color = 'gray'
         else:
             user_comment.like_status = 1
         db.session.commit()
-    return redirect(url_for('authentication_blueprint.course', course_id=course_id))
+    likes = [user.like_status for user in comment.users if user.like_status == 1]
+    dislikes = [user.like_status for user in comment.users if user.like_status == 2]
+    likes = len(likes)
+    dislikes = len(dislikes)
+    return jsonify({'likes': likes, 'dislikes': dislikes, 'like_color': like_color})
 
 
 @login_required
-@blueprint.route('course=<course_id>&dislike_comment=<comment_id>')
+@blueprint.route('background_dislike/course=<course_id>&comment=<comment_id>')
 def dislike_comment(course_id, comment_id):
+    dislike_color = 'red'
     user = current_user
     user_comment = UsersComments.query.filter_by(user_id=user.id, course_id=course_id, comment_id=comment_id).first()
+    comment = Comments.query.filter_by(id=comment_id).first()
     if user_comment is None:
-        user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author = False, comment_id=comment_id, like_status=-1)
+        user_comment = UsersComments(user_id=user.id, course_id=course_id, is_author=False, comment_id=comment_id,
+                                     like_status=2)
         db.session.add(user_comment)
         db.session.commit()
     else:
         if user_comment.like_status == 2:
             user_comment.like_status = 0
+            dislike_color = 'gray'
         else:
             user_comment.like_status = 2
         db.session.commit()
-    return redirect(url_for('authentication_blueprint.course', course_id=course_id))
+    likes = [user.like_status for user in comment.users if user.like_status == 1]
+    dislikes = [user.like_status for user in comment.users if user.like_status == 2]
+    likes = len(likes)
+    dislikes = len(dislikes)
+    return jsonify({'likes': likes, 'dislikes': dislikes, 'dislike_color': dislike_color})
 
 
 @login_required

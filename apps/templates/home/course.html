@@ -219,20 +219,75 @@
 
                         <p> {{ comments[i].comment }}</p>
                         <ul class="list-inline d-sm-flex my-0">
-                            <li class="list-inline-item g-mr-20">
-                                <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="course={{ course.id }}&like_comment={{ comments[i].id }}">
-                                    <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"
-                                       style="color: {{ thumb_colors[like_status.get(comments[i].id, 0)][0] }}"></i>
-                                    {{ comments_likes[i] }}
-                                </a>
-                            </li>
-                            <li class="list-inline-item g-mr-20">
-                                <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="course={{ course.id }}&dislike_comment={{ comments[i].id }}">
-                                        <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"
-                                           style="color: {{ thumb_colors[like_status.get(comments[i].id, 0)][1] }}"></i>
-                                    {{ comments_dislikes[i] }}
-                                </a>
-                            </li>
+                            <form>
+                                <li class="list-inline-item g-mr-20">
+                                    <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                                        <a href=# id=l{{ comments[i].id }}>
+                                            <i id="{{ comments[i].id }}like_color" class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"
+                                               style="color: {{ thumb_colors[like_status.get(comments[i].id, 0)][0] }}"
+                                            ></i>
+                                        </a>
+                                        <span id="{{ comments[i].id }}likes"> {{ comments_likes[i] }} </span>
+                                    </a>
+                                </li>
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                                                <a href=# id=dl{{ comments[i].id }}>
+                                                    <i id="{{ comments[i].id }}dislike_color" class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"
+                                                       style="color: {{ thumb_colors[like_status.get(comments[i].id, 0)][1] }}"
+                                                    ></i>
+                                                </a>
+                                            <span id="{{ comments[i].id }}dislikes"> {{ comments_dislikes[i] }} </span>
+                                        </a>
+                                    </li>
+                            </form>
+
+                            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                            <script type=text/javascript>
+                                $(function() {
+                                  $('a#l{{ comments[i].id }}').bind('click', function() {
+                                    $.getJSON('/background_like/course={{ course.id }}&comment={{ comments[i].id }}',
+                                        function(data) {
+                                        $("#{{ comments[i].id }}likes").html(data.likes);
+                                        $("#{{ comments[i].id }}dislikes").html(data.dislikes);
+                                        $("#{{ comments[i].id }}like_color").css("color", data.like_color);
+                                        $("#{{ comments[i].id }}dislike_color").css("color", 'gray');
+                                        });
+
+                                    return false;
+                                  });
+                                });
+                            </script>
+
+                            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                            <script type=text/javascript>
+                                $(function() {
+                                  $('a#dl{{ comments[i].id }}').bind('click', function() {
+                                    $.getJSON('/background_dislike/course={{ course.id }}&comment={{ comments[i].id }}',
+                                        function(data) {
+                                        $("#{{ comments[i].id }}likes").html(data.likes);
+                                        $("#{{ comments[i].id }}dislikes").html(data.dislikes);
+                                        $("#{{ comments[i].id }}like_color").css("color", 'gray');
+                                        $("#{{ comments[i].id }}dislike_color").css("color", data.dislike_color);
+                                        });
+
+                                    return false;
+                                  });
+                                });
+                            </script>
+
+
+{#                                mekori#}
+{#                            <li class="list-inline-item g-mr-20">#}
+{#                                <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="course={{ course.id }}&dislike_comment={{ comments[i].id }}">#}
+{#                                        <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"#}
+{#                                           style="color: {{ thumb_colors[like_status.get(comments[i].id, 0)][1] }}"></i>#}
+{#                                    {{ comments_dislikes[i] }}#}
+{#                                </a>#}
+{#                            </li>#}
+
+
+
                         </ul>
                     </div>
                 </div>
