@@ -11,12 +11,6 @@ from jinja2 import TemplateNotFound
 import apps.questions as qs
 
 
-@blueprint.route('/index')
-@login_required
-def index():
-    return render_template('home/index.html', segment='index')
-
-
 @blueprint.route('/game.html')
 def game():
     segment = get_segment(request)
