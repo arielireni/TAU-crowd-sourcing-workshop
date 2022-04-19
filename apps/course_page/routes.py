@@ -38,13 +38,17 @@ def course(course_id):
     course = Courses.query.filter_by(id=course_id).first()
     answers = CoursesQuestions.query.filter_by(course_id=course_id).all()
     comments = [comment for comment in Comments.query.filter_by(course_id=course_id).all()]
-    comments.sort(key=lambda x: x.time, reverse=True)
     comments_likes = []
     comments_dislikes = []
     for comment in comments:
         likes, dislikes = get_like_info(comment)
         comments_likes.append(likes)
         comments_dislikes.append(dislikes)
+    comments = [(comments[i], comments_likes[i], comments_dislikes[i]) for i in range(len(comments))]
+    comments.sort(key=lambda x: x[1] - x[2], reverse=True)
+    comments_likes = [comment[1] for comment in comments]
+    comments_dislikes = [comment[2] for comment in comments]
+    comments = [comment[0] for comment in comments]
     user_comment_data = [a for a in UsersComments.query.filter_by(course_id=course_id, user_id=current_user.id).all()]
     like_status = {a.comment_id: a.like_status for a in user_comment_data}
     thumb_colors = [['gray', 'gray'], ['green', 'gray'], ['gray', 'red']]
