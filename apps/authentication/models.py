@@ -139,8 +139,8 @@ class Comments(db.Model):
     username = db.Column(db.String(64), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('Courses.id'))
     comment = db.Column(db.String(500), nullable=False)
-    likes = db.Column(db.Integer, default=0)
-    dislikes = db.Column(db.Integer, default=0)
+    # likes = db.Column(db.Integer, default=0)
+    # dislikes = db.Column(db.Integer, default=0)
     time = db.Column(db.DateTime, default=func.now())
     users = db.relationship("UsersComments", back_populates="comment")
 
