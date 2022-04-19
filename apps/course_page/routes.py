@@ -24,6 +24,14 @@ from apps.authentication.models import *
 #     return render_template('home/course.html', course=course, featurs=features, comments=comments)
 
 
+def get_like_info(comment: Comments):
+    user_comment = comment.users
+    likes = [user.like_status for user in user_comment if user.like_status == 1]
+    dislikes = [user.like_status for user in user_comment if user.like_status == 2]
+    return len(likes), len(dislikes)
+
+
+
 @login_required
 @blueprint.route('course=<course_id>')
 def course(course_id):
@@ -34,11 +42,9 @@ def course(course_id):
     comments_likes = []
     comments_dislikes = []
     for comment in comments:
-        user_comment = comment.users
-        likes = [user.like_status for user in user_comment if user.like_status == 1]
-        dislikes = [user.like_status for user in user_comment if user.like_status == 2]
-        comments_likes.append(len(likes))
-        comments_dislikes.append(len(dislikes))
+        likes, dislikes = get_like_info(comment)
+        comments_likes.append(likes)
+        comments_dislikes.append(dislikes)
     user_comment_data = [a for a in UsersComments.query.filter_by(course_id=course_id, user_id=current_user.id).all()]
     like_status = {a.comment_id: a.like_status for a in user_comment_data}
     thumb_colors = [['gray', 'gray'], ['green', 'gray'], ['gray', 'red']]
@@ -108,10 +114,7 @@ def like_comment(course_id, comment_id):
         else:
             user_comment.like_status = 1
         db.session.commit()
-    likes = [user.like_status for user in comment.users if user.like_status == 1]
-    dislikes = [user.like_status for user in comment.users if user.like_status == 2]
-    likes = len(likes)
-    dislikes = len(dislikes)
+    likes, dislikes = get_like_info(comment)
     return jsonify({'likes': likes, 'dislikes': dislikes, 'like_color': like_color})
 
 
@@ -134,10 +137,7 @@ def dislike_comment(course_id, comment_id):
         else:
             user_comment.like_status = 2
         db.session.commit()
-    likes = [user.like_status for user in comment.users if user.like_status == 1]
-    dislikes = [user.like_status for user in comment.users if user.like_status == 2]
-    likes = len(likes)
-    dislikes = len(dislikes)
+    likes, dislikes = get_like_info(comment)
     return jsonify({'likes': likes, 'dislikes': dislikes, 'dislike_color': dislike_color})
 
 
