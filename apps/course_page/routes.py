@@ -32,6 +32,7 @@ def get_like_info(comment: Comments):
 
 
 
+
 @login_required
 @blueprint.route('course=<course_id>')
 def course(course_id):
