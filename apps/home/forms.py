@@ -6,4 +6,3 @@ class CourseSearchForm(Form):
                ('Course Number', 'Course Number')]
     select = SelectField('Search for Course:', choices=choices)
     search = StringField('')
-
