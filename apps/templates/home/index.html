@@ -36,7 +36,7 @@
                     <p>
                     {{ render_field(form_search.search) }}
                         {% for q in questions %}
-                            <h6>{{ q.q_str }}</h6>
+                            <h6>{{ q.feature }}</h6>
                             <select name="question-{{ q.id }}"  aria-label="Default select example">
                               <option selected>Dont care</option>
                               <option value="1">1</option>
@@ -48,7 +48,7 @@
                             </br>
                         {% endfor %}
                   <p><input type="submit" value="Search">
-                  </p></dl>></form>
+                  </p></dl></form>
               </div>
             </div>
           </div>
