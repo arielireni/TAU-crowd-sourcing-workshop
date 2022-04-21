@@ -6,7 +6,7 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
+ <link rel="stylesheet" href="styles.css">
   <div class="container-fluid py-4">
     <div class="row">
       <div class="col-12">
@@ -16,6 +16,7 @@
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
+
               <table class="table align-items-center mb-0">
                   <head>
                     <meta charset="UTF-8">
@@ -28,12 +29,13 @@
                             padding: 0;
                             overflow: visible;
                             box-sizing: content-box;
-                            {#background-image: url("../../static/assets/img/home-decor-1.jpg");;#}
                         }
                         canvas{
-                            background-image: url("../../static/assets/img/game/background.jpg"); /* The image used */
-                            background-color: #cccccc; /* Used if the image is unavailable */
-                            height: 500px; /* You must set a specified height */
+                            background-image: url("../../static/assets/img/game/background.jpeg"); /* The image used */
+                            background-color: white;
+                            height: 90%; /* You must set a specified height */
+                            width:90%;
+                            display: flex;
                             background-position: center; /* Center the image */
                             background-repeat: no-repeat; /* Do not repeat the image */
                             background-size: cover; /* Resize the background image to cover the entire container */
@@ -41,73 +43,110 @@
                       </style>
                   </head>
                   <body>
+                    <form id="submitCourse" method="post">
+                        <select name="course"  aria-label="Default select example">
+                            {% for course in courses %}
+                            <option value="{{ course.name }}">{{ course.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Submit">
+                    </form>
+                    {# TODO: same button for submit and play! #}
+                    <p><button onclick="game()" class="btn btn-dark">Start</button></p>
                     <canvas id="game-area"></canvas>
+                    <button onclick="sendUserRatings()" class="btn btn-dark">Submit Rate</button>
                     <script type="text/javascript">
 
+
+                    </script>
+                  </body>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>Top 10 Players</h6>
+
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center justify-content-center mb-0">
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.q_str }}</td>
+                    </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+    <script>
+
 // Declaration of required global variables.
-let width;
-let height;
-let fps;
-let tileSize;
-let canvas;
-let ctx;
+let width, height, fps, tileSize, canvas, ctx, interval;
 let snake;
-let food1;
-let food2;
-let food3;
-let food4;
-let food5;
+let food, food1, food2, food3, food4, food5;
 let score;
 let isPaused;
-let interval;
 
 let doneRating = false;
-// TODO: replace with questions from the DB
-let questions = new Map([
-    [0, "Rate overall satisfaction from the course"],
-    [1, "Rate the course's lecturer"],
-    [2, "Rate how relevant the course is"]
-]);
-let ratings = new Map()
-let num_questions = 3
-let curr_question = 0
+let ratings = new Map();
 
-// Loading the browser window
-window.addEventListener("load",function(){
+let num_questions = {{ num_questions }};
+let curr_question = 1;
+let questions = new Map();
 
-    game();
+{% for question in questions %}
+    questions.set({{ question.id }}, '{{ question.q_str }}');
+{% endfor %}
 
-});
+function startGame() {
 
-// Adding an event listener for key presses.
-window.addEventListener("keydown", function (evt) {
-    if (evt.key === " ") {
-        evt.preventDefault();
-        isPaused = !isPaused;
-        showPaused();
-    }
-    else if (evt.key === "ArrowUp") {
-        evt.preventDefault();
-        if (snake.velY != 1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
-            snake.dir(0, -1);
-    }
-    else if (evt.key === "ArrowDown") {
-        evt.preventDefault();
-        if (snake.velY != -1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
-            snake.dir(0, 1);
-    }
-    else if (evt.key === "ArrowLeft") {
-        evt.preventDefault();
-        if (snake.velX != 1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
-            snake.dir(-1, 0);
-    }
-    else if (evt.key === "ArrowRight") {
-        evt.preventDefault();
-        if (snake.velX != -1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
-            snake.dir(1, 0);
-    }
+    // Loading the browser window
+    window.addEventListener("load", function () {
 
-});
+        game();
+
+    });
+
+    // Adding an event listener for key presses.
+    window.addEventListener("keydown", function (evt) {
+        if (evt.key === " ") {
+            evt.preventDefault();
+            isPaused = !isPaused;
+            showPaused();
+        } else if (evt.key === "ArrowUp") {
+            evt.preventDefault();
+            if (snake.velY != 1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
+                snake.dir(0, -1);
+        } else if (evt.key === "ArrowDown") {
+            evt.preventDefault();
+            if (snake.velY != -1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
+                snake.dir(0, 1);
+        } else if (evt.key === "ArrowLeft") {
+            evt.preventDefault();
+            if (snake.velX != 1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
+                snake.dir(-1, 0);
+        } else if (evt.key === "ArrowRight") {
+            evt.preventDefault();
+            if (snake.velX != -1 && snake.x >= 0 && snake.x <= width && snake.y >= 0 && snake.y <= height)
+                snake.dir(1, 0);
+        }
+
+    });
+
+}
 
 // Determining a random spawn location on the grid.
 function spawnLocation() {
@@ -129,18 +168,18 @@ function spawnLocation() {
 function showScore() {
 
     ctx.textAlign = "center";
-    ctx.font = "25px Arial";
-    ctx.fillStyle = "white";
+    ctx.font = "bold 30px sans-serif";
+    ctx.fillStyle = "black";
     ctx.fillText("SCORE: " + score, width - 120, 30);
 
 }
 
 function showNextQuestion() {
-    if (curr_question < num_questions) {
+    if (curr_question <= num_questions) {
         ctx.textAlign = "center";
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "white";
-        ctx.fillText(questions.get(curr_question), width-1000, 50);
+        ctx.font = "bold 30px sans-serif";
+        ctx.fillStyle = "black";
+        ctx.fillText(questions.get(curr_question), width-1000, 30);
     }
 }
 
@@ -229,17 +268,24 @@ class Snake {
 
     // Update the rate of curr_question by the user's rate
     update_rating(rate) {
-        if (curr_question < num_questions) {
+        if (curr_question <= num_questions) {
             ratings.set(curr_question, rate);
             curr_question++;
         }
-        if (curr_question == num_questions) {
+        if (curr_question > num_questions) {
             doneRating = true;
         }
     }
 
     // Determining whether the snake has eaten a piece of food.
     eat() {
+        if(doneRating) {
+            if ((Math.abs(this.x - food.x) < 40 && Math.abs(this.y - food.y) < 40)) {
+                // Adding to the tail.
+                this.tail.push({});
+                return true;
+            }
+        }
         if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40)) {
             this.update_rating(1);
         }
@@ -362,80 +408,72 @@ function update() {
     }
 
     if (snake.die()) {
-        alert("GAME OVER!!!");
+        // TODO: replace alert with game over window
         clearInterval(interval);
-        window.location.reload();
+        alert(JSON.stringify(ratings));
+        {#window.location.reload();#}
     }
 
     snake.border();
 
     if (snake.eat()) {
         score += 10;
-        food1 = new Food(1, spawnLocation());
-        food2 = new Food(2, spawnLocation());
-        food3 = new Food(3, spawnLocation());
-        food4 = new Food(4, spawnLocation());
-        food5 = new Food(5, spawnLocation());
+        if(doneRating) {
+            food = new Food(0, spawnLocation());
+        }
+        else {
+            food1 = new Food(1, spawnLocation());
+            food2 = new Food(2, spawnLocation());
+            food3 = new Food(3, spawnLocation());
+            food4 = new Food(4, spawnLocation());
+            food5 = new Food(5, spawnLocation());
+        }
     }
 
     // Clearing the canvas for redrawing.
     ctx.clearRect(0, 0, width, height);
 
-
-    food1.draw();
-    food2.draw();
-    food3.draw();
-    food4.draw();
-    food5.draw();
+    if(doneRating) {
+        food.draw();
+    }
+    else {
+        food1.draw();
+        food2.draw();
+        food3.draw();
+        food4.draw();
+        food5.draw();
+        showNextQuestion();
+    }
     snake.draw();
     snake.move();
     showScore();
-    showNextQuestion();
 
 }
 
 // The actual game function.
 function game() {
-
+    startGame()
     init();
 
     interval = setInterval(update,1000/fps);
 
 }
 
+function sendUserRatings() {
+    const request = new XMLHttpRequest()
+    request.open('POST', `/submit_user_ratings/${JSON.stringify(ratings)}`)
+    request.onload = () => {
+        const flaskMessage = request.responseText
+        console.log(flaskMessage)
+    }
+    request.send()
+}
+
 // End of JavaScript code
 
-                    </script>
-                  </body>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-4">
-          <div class="card-header pb-0">
-            <h6>Top 10 Players</h6>
-
-          </div>
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <table class="table align-items-center justify-content-center mb-0">
-
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {% include "includes/footer.html" %}
-
-  </div>
+    </script>
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %}{% endblock javascripts %}
