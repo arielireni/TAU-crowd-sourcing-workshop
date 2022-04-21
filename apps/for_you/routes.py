@@ -8,7 +8,6 @@ from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 import apps.for_you.recommendations as rs
-import apps.questions as qs
 from apps.home.routes import get_segment
 
 
