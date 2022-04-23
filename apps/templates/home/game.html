@@ -44,17 +44,15 @@
                   </head>
                   <body>
                     <form id="submitCourse" method="post">
-                        <select name="course"  aria-label="Default select example">
+                        <select name="course" id="course" aria-label="Default select example">
                             {% for course in courses %}
                             <option value="{{ course.name }}">{{ course.name }}</option>
                             {% endfor %}
                         </select>
-                        <input type="submit" value="Submit">
                     </form>
-                    {# TODO: same button for submit and play! #}
                     <p><button onclick="game()" class="btn btn-dark">Start</button></p>
                     <canvas id="game-area"></canvas>
-                    <button onclick="sendUserRatings()" class="btn btn-dark">Submit Rate</button>
+                    <button onclick="sendGameDetails()" class="btn btn-dark">Submit Rate</button>
                     <script type="text/javascript">
 
 
@@ -75,12 +73,23 @@
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
-              <table class="table align-items-center justify-content-center mb-0">
-                {% for question in questions %}
+              <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>{{ question.q_str }}</td>
+                      <th scope="col">#</th>
+                      <th scope="col">User</th>
+                      <th scope="col">Score</th>
                     </tr>
-                {% endfor %}
+                <tbody>
+                    {% for i in range(best_scores|length) %}
+                        <tr>
+                        <th scope="row">{{ i + 1 }}</th>
+                            <td> {{ best_scores[best_scores|length - 1 - i].username }} </td>
+                            <td> {{ best_scores[best_scores|length - 1 - i].best_score }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </thead>
               </table>
             </div>
           </div>
@@ -104,11 +113,13 @@ let doneRating = false;
 let ratings = new Map();
 
 let num_questions = {{ num_questions }};
-let curr_question = 1;
-let questions = new Map();
+let curr_index = 0;
+let questions = new Array();
+let ids = new Array();
 
 {% for question in questions %}
-    questions.set({{ question.id }}, '{{ question.q_str }}');
+    ids.push({{ question.id }});
+    questions.push('{{ question.q_str }}');
 {% endfor %}
 
 function startGame() {
@@ -175,11 +186,11 @@ function showScore() {
 }
 
 function showNextQuestion() {
-    if (curr_question <= num_questions) {
+    if (curr_index < num_questions) {
         ctx.textAlign = "center";
         ctx.font = "bold 30px sans-serif";
         ctx.fillStyle = "black";
-        ctx.fillText(questions.get(curr_question), width-1000, 30);
+        ctx.fillText(questions[curr_index], width-1000, 30);
     }
 }
 
@@ -234,8 +245,6 @@ class Snake {
             ctx.closePath();
 
         }
-
-
     }
 
     // Moving the snake by updating position.
@@ -266,13 +275,13 @@ class Snake {
 
     }
 
-    // Update the rate of curr_question by the user's rate
+    // Update the rate of questions[curr_index] by the user's rate
     update_rating(rate) {
-        if (curr_question <= num_questions) {
-            ratings.set(curr_question, rate);
-            curr_question++;
+        if (curr_index < num_questions) {
+            ratings.set(ids[curr_index], rate);
+            curr_index++;
         }
-        if (curr_question > num_questions) {
+        else {
             doneRating = true;
         }
     }
@@ -410,8 +419,7 @@ function update() {
     if (snake.die()) {
         // TODO: replace alert with game over window
         clearInterval(interval);
-        alert(JSON.stringify(ratings));
-        {#window.location.reload();#}
+        alert("Game Over!");
     }
 
     snake.border();
@@ -459,14 +467,23 @@ function game() {
 
 }
 
-function sendUserRatings() {
-    const request = new XMLHttpRequest()
-    request.open('POST', `/submit_user_ratings/${JSON.stringify(ratings)}`)
+function sendGameDetails() {
+    // Initialize details with the user's ratings
+    const details = new Map(ratings);
+    // Add the selected course to details
+    const select = document.getElementById('course');
+    const courseName = select.options[select.selectedIndex].value;
+    details.set("selectedCourse", courseName);
+    // Add the game score to details
+    details.set("gameScore", score);
+    // Send the data
+    const request = new XMLHttpRequest();
+    request.open('POST', `/get_game_details/${JSON.stringify(details)}`);
     request.onload = () => {
-        const flaskMessage = request.responseText
-        console.log(flaskMessage)
+        const flaskMessage = request.responseText;
+        console.log(flaskMessage);
     }
-    request.send()
+    request.send();
 }
 
 // End of JavaScript code
