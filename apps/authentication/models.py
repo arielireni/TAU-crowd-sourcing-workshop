@@ -14,7 +14,6 @@ class UsersCourses(db.Model):
     __tablename__ = 'UsersCourses'
     user_id = db.Column(db.ForeignKey('Users.id'), primary_key=True)
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
-    status = db.Column(db.SMALLINT)  # 0 for taking rn, 1 for finished & unanswered, 2 for answered
     rating = db.Column(db.SMALLINT, default=-1)  # -1 for not rated yet
     user = db.relationship("Users", back_populates="courses")
     course = db.relationship("Courses", back_populates="users")
@@ -41,8 +40,8 @@ class CoursesLecturers(db.Model):
     __tablename__ = 'CoursesLecturers'
     course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
     lecturer_id = db.Column(db.ForeignKey('Lecturers.id'), primary_key=True)
-    year = db.Column(db.Integer)
-    semester = db.Column(db.SMALLINT)  # 0 for a, 1 for b, 2 for summer
+    year = db.Column(db.Integer, primary_key=True)
+    semester = db.Column(db.SMALLINT, primary_key=True)  # 0 for a, 1 for b, 2 for summer
     course = db.relationship("Courses", back_populates="lecturers")
     lecturer = db.relationship("Lecturers", back_populates="courses")
 
