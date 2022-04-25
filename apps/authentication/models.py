@@ -19,8 +19,7 @@ class UsersCourses(db.Model):
     course = db.relationship("Courses", back_populates="users")
 
     def __repr__(self):
-        status_repr = ['is taking', 'has finished & did not rate', 'has finished and rated']
-        return f'user {self.user_id} {status_repr[self.status]} course {self.course_id}'
+        return f'user {self.user_id} has taken course {self.course_id}'
 
 
 class CoursesQuestions(db.Model):
