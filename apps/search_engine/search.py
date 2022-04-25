@@ -2,18 +2,17 @@ from apps.authentication.models import *
 from math import sqrt
 
 
-def search_course(search, search_string):
-    if search.data['select'] == 'Lecturer':
+def search_course(category, search_string):
+    if category == 'Lecturer':
         qry = db.session.query(Courses, CoursesLecturers, Lecturers).join(Courses,
-                                                                          Courses.id == CoursesLecturers.course_id).join(
-            Lecturers,
-            Lecturers.id == CoursesLecturers.lecturer_id).filter(Lecturers.name.contains(search_string))
+            Courses.id == CoursesLecturers.course_id).join(Lecturers,
+            Lecturers.id == CoursesLecturers.lecturer_id).filter(Lecturers.name.contains(search_string)).distinct()
         results = [item[0] for item in qry.all()]
-    elif search.data['select'] == 'Course':
+    elif category == 'Course':
         qry = db.session.query(Courses).filter(
             Courses.name.contains(search_string))
         results = qry.all()
-    elif search.data['select'] == 'Course Number':
+    elif category == 'Course Number':
         qry = db.session.query(Courses).filter(
             Courses.id.contains(search_string))
         results = qry.all()

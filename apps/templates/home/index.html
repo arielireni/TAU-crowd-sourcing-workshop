@@ -14,7 +14,7 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Search</h6>
+                  <h2>Search Engine</h2>
                 </div>
               </div>
             </div>
@@ -29,13 +29,26 @@
                     </ul>
                   {% endif %}
                 {% endwith %}
-                {% from "_formhelpers.html" import render_field %}
+
                 <form method="post">
-                  <dl>
-                    {{ render_field(form_search.select) }}
-                    <p>
-                    {{ render_field(form_search.search) }}
+
+                    <select name="category" aria-label="Default select example">
+                        <option selected>Course</option>
+                        <option value="Lecturer">Lecturer</option>
+                        <option value="Course Number">Course Number</option>
+                    </select>
+                    <br><br>
+                    <input name="search_string" style="width: 16%" class="form-control" type="text" placeholder="All...">
+                    <br>
+                    <br>
+
+
+                    <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                    <div class="row gx-5">
+                      <br><br> <h6>Pick questions to sort the results by:</h6><br><br><br>
                         {% for q in questions %}
+
+                            <div class="col">
                             <h6>{{ q.feature }}</h6>
                             <select name="question-{{ q.id }}"  aria-label="Default select example">
                               <option selected>Dont care</option>
@@ -45,11 +58,15 @@
                               <option value="4">4</option>
                               <option value="5">5</option>
                             </select>
-                            </br>
+                            </div>
                         {% endfor %}
-                  <p><input type="submit" value="Search">
-                  </p></dl></form>
-              </div>
+
+                    </div>
+                    </div>
+
+                  <br>
+                  <p><input type="submit" value="Search" style="float: right;" size="30">
+                  </p></form>
             </div>
           </div>
         </div>
