@@ -31,9 +31,10 @@ def get_game_details(details):
     for i in range(len(details) - 2):
         question_id = details[i][0]
         rate = details[i][1]
-        question_rate = CoursesQuestions.query.filter_by(course_id=selected_course, question_id=question_id).first()
+        course = Courses.query.filter_by(name=selected_course).first()
+        question_rate = CoursesQuestions.query.filter_by(course_id=course.id, question_id=question_id).first()
         if question_rate is None:
-            question_rate = CoursesQuestions(course_id=selected_course, question_id=question_id, sum_ratings=rate,
+            question_rate = CoursesQuestions(course_id=course.id, question_id=question_id, sum_ratings=rate,
                                              num_ratings=1)
             db.session.add(question_rate)
 

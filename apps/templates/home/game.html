@@ -277,7 +277,7 @@ class Snake {
 
     // Update the rate of questions[curr_index] by the user's rate
     update_rating(rate) {
-        if (curr_index < num_questions) {
+        if (curr_index < num_questions-1) {
             ratings.set(ids[curr_index], rate);
             curr_index++;
         }
