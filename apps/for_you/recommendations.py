@@ -9,8 +9,7 @@ def get_closest_users(curr_user: Users, k, thres):
     candidates = {}
     UC1 = aliased(UsersCourses)
     similar_courses = db.session.query(UsersCourses, UC1).join(UC1, UsersCourses.course_id == UC1.course_id).filter(
-        UsersCourses.user_id == curr_user.id, UsersCourses.status == 2, UC1.status == 2,
-        UC1.user_id != curr_user.id).all()
+        UsersCourses.user_id == curr_user.id, UC1.user_id != curr_user.id).all()
     for pair in similar_courses:
         if pair[1].user_id not in candidates:
             candidates[pair[1].user_id] = (0, 0)  # first is sum of rating diff, second is number of courses
@@ -30,7 +29,7 @@ def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
     taken_courses = [course.course_id for course in curr_user.courses]
     untaken_courses = Courses.query.filter(Courses.id.notin_(taken_courses)).all()
     closest_users_opinions = UsersCourses.query.filter(UsersCourses.user_id.in_(closest_users),
-                                                       UsersCourses.status == 2).all()
+                                                        ).all()
     untaken_courses = {course.id: (course, 0, 0) for course in
                        untaken_courses}  # first is course, second is sum of ratings, third is number of ratings
     for opinion in closest_users_opinions:
