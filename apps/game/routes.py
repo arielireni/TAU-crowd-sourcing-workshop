@@ -17,8 +17,11 @@ def game():
     courses = Courses.query.all()
     num_questions = len(questions)
     best_scores = Users.query.order_by(Users.best_score).all()[-10:]
+    if request.method == 'POST':
+            return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
+                           courses=courses, best_scores=best_scores)
 
-    return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
+    return render_template('home/' + 'game_openpage.html', segment=segment, questions=questions, num_questions=num_questions,
                            courses=courses, best_scores=best_scores)
 
 
@@ -51,4 +54,10 @@ def get_game_details(details):
         user.best_score = game_score
         db.session.commit()
 
+
+   #return render_template('home/' + 'game_over.html')
     return "Details received!"
+
+@blueprint.route('/gameover.html', methods=['GET', 'POST'])
+def gameover():
+    return render_template('home/' + 'game_over.html')

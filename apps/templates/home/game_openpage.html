@@ -12,7 +12,7 @@
       <div class="col-12">
         <div class="card mb-4">
           <div class="card-header pb-0">
-            <h6>When ever you ready -</h6>
+            <h6>Let's Play - opening page</h6>
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
@@ -23,69 +23,26 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link rel="stylesheet" href="game/style.css">
                     <title>Document</title>
-                      <style type="text/css">
-                        *{
-                            margin: 0;
-                            padding: 0;
-                            overflow: visible;
-                            box-sizing: content-box;
-                        }
-                        canvas{
-                            background-image: url("../../static/assets/img/game/background.jpeg"); /* The image used */
-                            background-color: white;
-                            height: 90%; /* You must set a specified height */
-                            width:90%;
-                            display: flex;
-                            background-position: center; /* Center the image */
-                            background-repeat: no-repeat; /* Do not repeat the image */
-                            background-size: cover; /* Resize the background image to cover the entire container */
-                        }
-                      </style>
+
                   </head>
                   <body>
-
+                    <form id="submitCourse" method="post">
+                        <select name="course" id="course" aria-label="Default select example">
+                            {% for course in courses %}
+                            <option value="{{ course.name }}">{{ course.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <p>
+                            <input type="submit" value="go to game" style="float: right;" size="30">
+                        </p>
+                    </form>
                     <p>
-                        <button onclick="game()" class="btn btn-dark">Start</button>
+                        <button onclick="goto" class="btn btn-dark">Start</button>
                     </p>
                     <canvas id="game-area"></canvas>
-                    <button onclick="sendGameDetails()" class="btn btn-dark">Submit Rate</button>
-                    <script type="text/javascript">
-
 
                     </script>
                   </body>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-4">
-          <div class="card-header pb-0">
-            <h6>Top 10 Players</h6>
-
-          </div>
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <table class="table table-striped">
-                <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">User</th>
-                      <th scope="col">Score</th>
-                    </tr>
-                <tbody>
-                    {% for i in range(best_scores|length) %}
-                        <tr>
-                        <th scope="row">{{ i + 1 }}</th>
-                            <td> {{ best_scores[best_scores|length - 1 - i].username }} </td>
-                            <td> {{ best_scores[best_scores|length - 1 - i].best_score }} </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                </thead>
               </table>
             </div>
           </div>
@@ -117,6 +74,8 @@ let ids = new Array();
     ids.push({{ question.id }});
     questions.push('{{ question.q_str }}');
 {% endfor %}
+
+function goto() {}
 
 function startGame() {
 
@@ -416,7 +375,6 @@ function update() {
         // TODO: replace alert with game over window
         clearInterval(interval);
         alert("Game Over!");
-        alert("Game Over!");
     }
 
     snake.border();
@@ -482,6 +440,7 @@ function sendGameDetails() {
     }
     request.send();
 }
+
 // End of JavaScript code
 
     </script>
