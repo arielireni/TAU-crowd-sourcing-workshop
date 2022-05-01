@@ -21,7 +21,7 @@
         <div class="col-auto my-auto">
           <div class="h-100">
             <h5 class="mb-1">
-              {{ current_user }}
+              {{ current_user.username }}
             </h5>
           </div>
         </div>
@@ -52,7 +52,7 @@
           <div class="card-body p-3">
             <hr class="horizontal gray-light my-4">
             <ul class="list-group">
-              <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp;{{ current_user.username }} </li>
+              <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp;{{ current_user.fname }} {{ current_user.lname}} </li>
               <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp;{{ current_user.email }} </li>
             </ul>
           </div>
@@ -62,7 +62,7 @@
         <div class="card mb-4">
           <div class="card-header pb-0 p-3">
             <h6 class="mb-1">Time - Line</h6>
-            <p class="text-sm">יום שעובר לא חוזר. אמן</p>
+            <p class="text-sm">יום שעובר לא חוזר.</p>
           </div>
           <! progress bar here />
           <td class="align-middle">
