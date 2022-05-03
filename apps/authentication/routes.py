@@ -119,12 +119,3 @@ def not_found_error(error):
 def internal_error(error):
     return render_template('home/page-500.html'), 500
 
-@login_required
-@blueprint.route('course=<course_id>', methods=['POST'])
-def submit_comment(course_id):
-    text = request.form['comment']
-    user = current_user
-    comment = Comments(comment=text, course_id=course_id, username=user.username)
-    db.session.add(comment)
-    db.session.commit()
-    return redirect(url_for('authentication_blueprint.course', course_id=course_id))
