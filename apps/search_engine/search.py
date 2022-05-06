@@ -24,6 +24,8 @@ def search_course(category, search_string):
 
 def calculate_norm(ratings, course_ratings):
     norm = 0
+    print(ratings)
+    print(course_ratings)
     for tup in ratings:
         norm += pow((tup[1] - course_ratings[tup[0]]), 2)
     return sqrt(norm)
