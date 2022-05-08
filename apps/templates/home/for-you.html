@@ -21,10 +21,10 @@
                                     <div class="d-flex flex-column">
                                         <a href="course={{ courses[i][0].id }}"> <h6 class="mb-3 text-sm">{{ courses[i][0] }}</h6> </a>
                                         <span class="mb-2 text-xs">This course has an average rating of {{ round((courses[i][1]/courses[i][2])*100)/100 }} among students like you.</span>
-                                        <span class="mb-2 text-xs">Email Address: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">first</span></span>
-                                        <span class="text-xs">VAT Number: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">first</span></span>
+                                        <span class="mb-2 text-xs">Most dominant feature: {{ best_worst_questions[i][0].question.feature }}
+                                             with rating {{ round((best_worst_questions[i][0].sum_ratings / best_worst_questions[i][0].num_ratings)*100)/100 }}</span>
+                                        <span class="mb-2 text-xs">Least dominant feature: {{ best_worst_questions[i][1].question.feature }}
+                                             with rating {{ round((best_worst_questions[i][1].sum_ratings / best_worst_questions[i][1].num_ratings)*100)/100 }}</span>
                                     </div>
                                 </li>
                             {% endfor %}

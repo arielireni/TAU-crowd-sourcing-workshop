@@ -34,7 +34,7 @@
                                     <select name="category" aria-label="Default select example">
                                         <option selected>Course</option>
                                         <option value="Lecturer">Lecturer</option>
-                                        <option value="Course Number">Course Number</option>
+{#                                        <option value="Course Number">Course Number</option>#}
                                     </select>
                                 </div>
                                 <br>
@@ -47,7 +47,7 @@
 
                                 <div class="shadow-lg p-3 mb-5 bg-body rounded" style="overflow-x: hidden; width: 100%; text-align: center">
                                     <div class="row gx-5">
-                                        <p style=" text-align: center; ">Pick questions to sort the results by:</p>
+                                        <p style=" text-align: center; ">Pick features to sort the results by:</p>
                                         {% for q in questions %}
                                             <div style="width: {{ 100 / questions | length }}%">
                                                 <div class="col my-4">
