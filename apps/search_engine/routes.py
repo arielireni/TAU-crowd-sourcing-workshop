@@ -17,7 +17,7 @@ def index():
         search_string = request.form.get("search_string")
         search_string = search_string if len(search_string) > 0 else 'All'
         for q in questions:
-            if request.form.get('question-' + str(q.id)) == 'Dont care':
+            if request.form.get('question-' + str(q.id)) == 'Any':
                 count += 1
         if count == num_questions:
             return redirect(
@@ -28,7 +28,7 @@ def index():
             ratings = []
             for q in questions:
                 answer = request.form.get('question-' + str(q.id))
-                if answer != 'Dont care':
+                if answer != 'Any':
                     ratings.append((q.id - first_id, int(answer)))
             # convert ratings to string
             str_ratings = ''
