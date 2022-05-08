@@ -1,5 +1,4 @@
 from sqlalchemy.orm import aliased
-
 from apps.authentication.models import *
 
 
@@ -12,6 +11,7 @@ def get_closest_users(curr_user: Users, k, thres):
         UsersCourses.user_id == curr_user.id, UC1.user_id != curr_user.id).all()
     for pair in similar_courses:
         if pair[1].user_id not in candidates:
+            print(pair)
             candidates[pair[1].user_id] = (0, 0)  # first is sum of rating diff, second is number of courses
             candidates[pair[1].user_id] = (abs(pair[0].rating - pair[1].rating), 1)
         else:

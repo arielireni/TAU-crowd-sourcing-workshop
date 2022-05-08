@@ -15,4 +15,5 @@ from apps.home.routes import get_segment
 def for_you():
     segment = get_segment(request)
     return render_template("home/" + 'for-you.html', segment=segment,
-                           courses=rs.recommend_courses(flask_login.current_user))
+                           courses=rs.recommend_courses(flask_login.current_user),
+                           round=round)
