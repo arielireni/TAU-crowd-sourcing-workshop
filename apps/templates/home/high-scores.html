@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} High-Scores {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-7 mt-4">
+                <div class="card">
+                    <div class="card-header pb-0 px-3">
+                        <h6 class="mb-0">High Scores </h6>
+                    </div>
+                    <div class="card-body pt-4 p-3">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                            <tbody>
+                            {% for i in range(best_scores|length) %}
+                                <tr>
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td> {{ best_scores[best_scores|length - 1 - i].username }} </td>
+                                    <td> {{ best_scores[best_scores|length - 1 - i].best_score }} </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

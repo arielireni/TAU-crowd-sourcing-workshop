@@ -5,9 +5,9 @@ Copyright (c) 2019 - present AppSeed.us
 import json
 from flask_login import login_required, current_user
 from apps.home.routes import get_segment
-from flask import render_template, request
-from apps.authentication import blueprint
+from flask import render_template, request, url_for, redirect
 from apps.authentication.models import *
+from apps.game import blueprint
 
 
 @login_required
@@ -22,21 +22,23 @@ def game():
     for course in courses:
         if UsersCourses.query.filter_by(user_id=user.id, course_id=course.id).first() is not None:
             courses.remove(course)
-    best_scores = Users.query.order_by(Users.best_score).all()[-10:]
 
     return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
-                           courses=courses, best_scores=best_scores)
+                           courses=courses)
 
 
 @login_required
-@blueprint.route('/get_game_details/<string:details>', methods=['POST'])
+@blueprint.route('/get_game_details/<string:details>', methods=['GET', 'POST'])
 def get_game_details(details):
     details = json.loads(details)
     selected_course = details[len(details) - 2][1]
     # Update ratings and calculate average rating
     num_questions = len(details) - 2
     sum_ratings = 0
-    for i in range(len(details) - 2):
+    for i in range(num_questions):
+        if i == num_questions - 1:
+            overall_rating = details[i][1]
+            continue
         question_id = details[i][0]
         rate = details[i][1]
         sum_ratings += rate
@@ -54,8 +56,7 @@ def get_game_details(details):
     user = current_user
 
     # Mark course as done after summiting the ratings
-    avg_rating = sum_ratings / num_questions
-    done_course = UsersCourses(user_id=user.id, course_id=course.id, rating=avg_rating)
+    done_course = UsersCourses(user_id=user.id, course_id=course.id, rating=overall_rating)
     db.session.add(done_course)
 
     # Update user credits
@@ -67,4 +68,12 @@ def get_game_details(details):
         user.best_score = game_score
 
     db.session.commit()
-    return "Details received!"
+
+    return "details submitted!"
+
+
+@login_required
+@blueprint.route('/high-scores.html', methods=['GET'])
+def high_scores():
+    best_scores = Users.query.order_by(Users.best_score).all()[-10:]
+    return render_template('home/' + 'high-scores.html', best_scores=best_scores)
