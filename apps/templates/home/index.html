@@ -3,253 +3,263 @@
 {% block title %} Search {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+{% endblock stylesheets %}
 
 {% block content %}
-
+<body style="overflow-x: hidden">
     <div class="container-fluid py-4">
-      <div class="row my-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                    <h1 style="color: #5e9ca0; text-align: center; margin-bottom: 25px ">Search Engine</h1>
+        <div class="row my-4">
+            <div class="col my-4">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <h1 style="color: #5e9ca0; margin-bottom: 3%; text-align: center">Search Engine</h1>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class="flashes">
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
+
+                            <form method="post">
+                                <div style="text-align: center">
+                                    <select name="category" aria-label="Default select example">
+                                        <option selected>Course</option>
+                                        <option value="Lecturer">Lecturer</option>
+                                        <option value="Course Number">Course Number</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div style="text-align: center">
+                                    <input name="search_string" style="width: 16%" type="text"
+                                           placeholder="Any">
+                                </div>
+                                <br>
+                                <br>
+
+                                <div class="shadow-lg p-3 mb-5 bg-body rounded" style="overflow-x: hidden; width: 100%; text-align: center">
+                                    <div class="row gx-5">
+                                        <p style=" text-align: center; ">Pick questions to sort the results by:</p>
+                                        {% for q in questions %}
+                                            <div style="width: {{ 100 / questions | length }}%">
+                                                <div class="col my-4">
+                                                    <h6>{{ q.feature }}</h6>
+                                                    <select name="question-{{ q.id }}"
+                                                            aria-label="Default select example">
+                                                        <option selected>Any</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div style="text-align: center">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-               {% with messages = get_flashed_messages() %}
-                  {% if messages %}
-                    <ul class="flashes">
-                    {% for message in messages %}
-                      <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-                {% endwith %}
 
-                <form method="post">
+            {% include "includes/footer.html" %}
 
-                    <select name="category" aria-label="Default select example">
-                        <option selected>Course</option>
-                        <option value="Lecturer">Lecturer</option>
-                        <option value="Course Number">Course Number</option>
-                    </select>
-                    <br><br>
-                    <input name="search_string" style="width: 16%" class="form-control" type="text" placeholder="All...">
-                    <br>
-                    <br>
-
-
-                    <div class="shadow-lg p-3 mb-5 bg-body rounded">
-                    <div class="row gx-5">
-                        <p style=" text-align: center; ">Pick questions to sort the results by:</p>
-                        {% for q in questions %}
-
-                            <div class="col">
-                            <h6>{{ q.feature }}</h6>
-                            <select name="question-{{ q.id }}"  aria-label="Default select example">
-                              <option selected>Dont care</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                            </select>
-                            </div>
-                        {% endfor %}
-
-                    </div>
-                    </div>
-
-                  <br>
-                  <p><input type="submit" value="Search" style="float: right;" size="30">
-                  </p></form>
-            </div>
-          </div>
         </div>
-      </div>
-
-      {% include "includes/footer.html" %}
-
     </div>
-
+</body>
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+
+
+
+
+<!-- Specific JS goes HERE -->
 {% block javascripts %}
 
-  <script>
-    var ctx = document.getElementById("chart-bars").getContext("2d");
+    <script>
+        var ctx = document.getElementById("chart-bars").getContext("2d");
 
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Sales",
-          tension: 0.4,
-          borderWidth: 0,
-          borderRadius: 4,
-          borderSkipped: false,
-          backgroundColor: "#fff",
-          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-          maxBarThickness: 6
-        }, ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Sales",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    borderRadius: 4,
+                    borderSkipped: false,
+                    backgroundColor: "#fff",
+                    data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+                    maxBarThickness: 6
+                },],
             },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 15,
-              font: {
-                size: 14,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-              color: "#fff"
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 500,
+                            beginAtZero: true,
+                            padding: 15,
+                            font: {
+                                size: 14,
+                                family: "Open Sans",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                            color: "#fff"
+                        },
+                    },
+                    x: {
+                        grid: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false
+                        },
+                        ticks: {
+                            display: false
+                        },
+                    },
+                },
             },
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false
+        });
+
+
+        var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+        var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+        var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+        gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+
+        new Chart(ctx2, {
+            type: "line",
+            data: {
+                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Mobile apps",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 0,
+                    borderColor: "#cb0c9f",
+                    borderWidth: 3,
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                    maxBarThickness: 6
+
+                },
+                    {
+                        label: "Websites",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        pointRadius: 0,
+                        borderColor: "#3A416F",
+                        borderWidth: 3,
+                        backgroundColor: gradientStroke2,
+                        fill: true,
+                        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                        maxBarThickness: 6
+                    },
+                ],
             },
-            ticks: {
-              display: false
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#b2b9bf',
+                            font: {
+                                size: 11,
+                                family: "Open Sans",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                    x: {
+                        grid: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            color: '#b2b9bf',
+                            padding: 20,
+                            font: {
+                                size: 11,
+                                family: "Open Sans",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                },
             },
-          },
-        },
-      },
-    });
-
-
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
-    new Chart(ctx2, {
-      type: "line",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#cb0c9f",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            fill: true,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
-
-          },
-          {
-            label: "Websites",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            fill: true,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-            maxBarThickness: 6
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#b2b9bf',
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#b2b9bf',
-              padding: 20,
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-  </script>
+        });
+    </script>
 
 {% endblock javascripts %}

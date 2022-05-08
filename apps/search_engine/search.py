@@ -36,7 +36,6 @@ def get_closest_courses(ratings, results):
     # results - a table of courses resulted in the course/lecturer search
 
     first_id = db.session.query(Questions).first().id
-    print(first_id)
     norms=[]
     for course in results:
         my_questions = course.questions
