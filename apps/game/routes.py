@@ -10,12 +10,18 @@ from apps.authentication import blueprint
 from apps.authentication.models import *
 
 
+@login_required
 @blueprint.route('/game.html', methods=['GET', 'POST'])
 def game():
     segment = get_segment(request)
     questions = Questions.query.all()
-    courses = Courses.query.all()
     num_questions = len(questions)
+    courses = Courses.query.all()
+    user = current_user
+    # Rate only undone courses
+    for course in courses:
+        if UsersCourses.query.filter_by(user_id=user.id, course_id=course.id).first() is not None:
+            courses.remove(course)
     best_scores = Users.query.order_by(Users.best_score).all()[-10:]
 
     return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
@@ -27,10 +33,13 @@ def game():
 def get_game_details(details):
     details = json.loads(details)
     selected_course = details[len(details) - 2][1]
-    # Update ratings
+    # Update ratings and calculate average rating
+    num_questions = len(details) - 2
+    sum_ratings = 0
     for i in range(len(details) - 2):
         question_id = details[i][0]
         rate = details[i][1]
+        sum_ratings += rate
         course = Courses.query.filter_by(name=selected_course).first()
         question_rate = CoursesQuestions.query.filter_by(course_id=course.id, question_id=question_id).first()
         if question_rate is None:
@@ -42,13 +51,20 @@ def get_game_details(details):
             question_rate.sum_ratings += rate
             question_rate.num_ratings += 1
 
-        db.session.commit()
+    user = current_user
+
+    # Mark course as done after summiting the ratings
+    avg_rating = sum_ratings / num_questions
+    done_course = UsersCourses(user_id=user.id, course_id=course.id, rating=avg_rating)
+    db.session.add(done_course)
+
+    # Update user credits
+    user.credits += course.credit_points
 
     # Update best score if needed
     game_score = details[len(details) - 1][1]
-    user = current_user
     if game_score > user.best_score:
         user.best_score = game_score
-        db.session.commit()
 
+    db.session.commit()
     return "Details received!"

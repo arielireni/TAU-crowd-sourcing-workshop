@@ -29,3 +29,12 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField('Password',
                              id='pwd_create',
                              validators=[DataRequired()])
+    fname = StringField('First Name',
+                             id='fname_create',
+                             validators=[DataRequired()])
+    lname = StringField('Last Name',
+                          id='lname_create',
+                          validators=[DataRequired()])
+    image = StringField('Image',
+                          id='pwd_create',
+                          validators=[DataRequired()])

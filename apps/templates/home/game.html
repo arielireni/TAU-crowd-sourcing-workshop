@@ -12,7 +12,9 @@
       <div class="col-12">
         <div class="card mb-4">
           <div class="card-header pb-0">
-            <h6>Let's Play</h6>
+            <h1 style="color: #5e9ca0; text-align: center; margin-bottom: 25px ">Let's Play!</h1>
+              <p style=" text-align: center; ">choose the course you would like to rate and click START</p>
+              <p style=" text-align: center; ">SUBMIT-RATE if you are satisfied with the rating you have given</p>
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
@@ -31,7 +33,7 @@
                             box-sizing: content-box;
                         }
                         canvas{
-                            background-image: url("../../static/assets/img/game/background.jpeg"); /* The image used */
+                            background-image: url("../../static/assets/img/game/AreYouReady2.PNG"); /* The image used */
                             background-color: white;
                             height: 90%; /* You must set a specified height */
                             width:90%;
@@ -50,9 +52,9 @@
                             {% endfor %}
                         </select>
                     </form>
-                    <p><button onclick="game()" class="btn btn-dark">Start</button></p>
+                    <p><button onclick="game()" class="btn btn-primary pull-right btn-lg " >start</button></p>
                     <canvas id="game-area"></canvas>
-                    <button onclick="sendGameDetails()" class="btn btn-dark">Submit Rate</button>
+                    <button onclick="sendGameDetails()" class="btn btn-primary pull-right btn-lg ">Submit Rate</button>
                     <script type="text/javascript">
 
 
@@ -419,7 +421,7 @@ function update() {
     if (snake.die()) {
         // TODO: replace alert with game over window
         clearInterval(interval);
-        alert("Game Over!");
+        document.getElementById("game-area").style.background = "url(../../static/assets/img/game/gif.gif)"
     }
 
     snake.border();
@@ -460,6 +462,7 @@ function update() {
 
 // The actual game function.
 function game() {
+    document.getElementById("game-area").style.background = "url(../../static/assets/img/game/background.jpeg)";
     startGame()
     init();
 
