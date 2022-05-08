@@ -36,11 +36,9 @@ def get_game_details(details):
     for i in range(num_questions):
         if i == num_questions - 1:
             overall_rating = details[i][1]
-            print('overall_rating: ', overall_rating)
             continue
         question_id = details[i][0]
         rate = details[i][1]
-        print('rate: ', rate)
         sum_ratings += rate
         course = Courses.query.filter_by(name=selected_course).first()
         question_rate = CoursesQuestions.query.filter_by(course_id=course.id, question_id=question_id).first()
