@@ -16,15 +16,13 @@ def game():
     segment = get_segment(request)
     questions = Questions.query.all()
     num_questions = len(questions)
-    courses = Courses.query.all()
     user = current_user
     # Rate only undone courses
-    for course in courses:
-        if UsersCourses.query.filter_by(user_id=user.id, course_id=course.id).first() is not None:
-            courses.remove(course)
+    taken_courses = set([usercourse.course.id for usercourse in UsersCourses.query.filter_by(user_id=user.id).all()])
+    untaken_courses = Courses.query.filter(~Courses.id.in_(taken_courses)).all()
 
     return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
-                           courses=courses)
+                           courses=untaken_courses)
 
 
 @login_required
@@ -38,9 +36,11 @@ def get_game_details(details):
     for i in range(num_questions):
         if i == num_questions - 1:
             overall_rating = details[i][1]
+            print('overall_rating: ', overall_rating)
             continue
         question_id = details[i][0]
         rate = details[i][1]
+        print('rate: ', rate)
         sum_ratings += rate
         course = Courses.query.filter_by(name=selected_course).first()
         question_rate = CoursesQuestions.query.filter_by(course_id=course.id, question_id=question_id).first()
