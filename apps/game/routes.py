@@ -33,6 +33,7 @@ def get_game_details(details):
     # Update ratings and calculate average rating
     num_questions = len(details) - 2
     sum_ratings = 0
+
     for i in range(num_questions):
         if i == num_questions - 1:
             overall_rating = details[i][1]
@@ -74,4 +75,5 @@ def get_game_details(details):
 @blueprint.route('/high-scores.html', methods=['GET'])
 def high_scores():
     best_scores = Users.query.order_by(Users.best_score).all()[-10:]
+    best_scores = [result for result in best_scores if result.best_score != 0]
     return render_template('home/' + 'high-scores.html', best_scores=best_scores)
