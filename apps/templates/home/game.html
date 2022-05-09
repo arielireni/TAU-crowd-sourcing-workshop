@@ -105,8 +105,8 @@
             questions.push('{{ question.q_str }}');
         {% endfor %}
 
-        ids.push(numQuestions - 1);
-        questions.push('Overall rating for this course');
+        ids.push(numQuestions);
+        questions.push('Overall rating for this course')
 
         let select = document.getElementById('course');
         let courseName = select.options[select.selectedIndex].value;
@@ -266,10 +266,16 @@
 
             // Update the rate of questions[currIndex] by the user's rate
             update_rating(rate) {
-                if (currIndex < numQuestions - 1) {
+                if (doneRating) {
+                    return;
+                }
+
+                if (currIndex < numQuestions) {
                     ratings.set(ids[currIndex], rate);
                     currIndex++;
-                } else {
+                }
+
+                if (currIndex == numQuestions) {
                     doneRating = true;
                 }
             }
@@ -306,7 +312,7 @@
 
             // Checking if the snake has died.
             die() {
-                // Snake can't die if the user didn't finish to rate
+                // Snake can't die if the user didn't finish rating
                 if (!doneRating) {
                     return false;
                 }
