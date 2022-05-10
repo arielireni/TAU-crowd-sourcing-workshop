@@ -353,7 +353,7 @@
 
             // Drawing the food on the canvas.
             draw() {
-
+                isPaused=true;
                 ctx.beginPath();
                 const image = new Image();
                 image.src = "../../static/assets/img/game/food_" + this.id + ".png"
@@ -363,6 +363,7 @@
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 ctx.closePath();
+                isPaused=false;
 
             }
 
@@ -402,23 +403,26 @@
             food4 = new Food(4, spawnLocation());
             food5 = new Food(5, spawnLocation());
         }
+        // delay for the food
+        function waitForIt() {
+            if (isPaused) {
+                setTimeout(function () {waitForIt()}, 200);
+            }
+        }
 
         // Updating the position and redrawing of game objects.
         function update() {
-
             // Checking if game is paused.
-            if (isPaused) {
+            if (isPaused ) {
                 return;
             }
-
+            isPaused=true;
             snake.border();
 
             if (snake.eat()) {
                 score += 10;
                 if (doneRating) {
                     food = new Food(0, spawnLocation());
-
-
                 } else {
                     food1 = new Food(1, spawnLocation());
                     food2 = new Food(2, spawnLocation());
@@ -427,7 +431,7 @@
                     food5 = new Food(5, spawnLocation());
                 }
             }
-
+            isPaused=false;
             // Clearing the canvas for redrawing.
             ctx.clearRect(0, 0, width, height);
 
@@ -437,9 +441,7 @@
                 window.location.href = "/high-scores.html"
             } else {
                 if (doneRating) {
-                    isPaused=true;
                     food.draw();
-                    isPaused=false;
                 } else {
                     food1.draw();
                     food2.draw();
@@ -452,7 +454,6 @@
                 snake.move();
                 showScore();
             }
-
         }
 
         // The actual game function.
