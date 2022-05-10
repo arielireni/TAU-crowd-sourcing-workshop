@@ -417,6 +417,8 @@
                 score += 10;
                 if (doneRating) {
                     food = new Food(0, spawnLocation());
+
+
                 } else {
                     food1 = new Food(1, spawnLocation());
                     food2 = new Food(2, spawnLocation());
@@ -435,7 +437,9 @@
                 window.location.href = "/high-scores.html"
             } else {
                 if (doneRating) {
+                    isPaused=true;
                     food.draw();
+                    isPaused=false;
                 } else {
                     food1.draw();
                     food2.draw();
