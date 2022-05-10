@@ -2444,31 +2444,31 @@ textarea.form-control-lg {
 
 .btn-primary {
   color: #fff;
-  background-color: #cb0c9f;
-  border-color: #cb0c9f; }
+  background-color: #008080;
+  border-color: #008080; }
   .btn-primary:hover {
     color: #fff;
-    background-color: #ad0a87;
-    border-color: #a20a7f; }
+    background-color: #008080;
+    border-color: #008080; }
   .btn-check:focus + .btn-primary, .btn-primary:focus {
     color: #fff;
-    background-color: #ad0a87;
-    border-color: #a20a7f;
-    box-shadow: 0 0 0 0.2rem rgba(211, 48, 173, 0.5); }
+    background-color: #008080;
+    border-color: #008080;
+    box-shadow: 0 0 0 0.2rem rgba(0, 128, 128); }
   .btn-check:checked + .btn-primary,
   .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active,
   .show > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #a20a7f;
-    border-color: #980977; }
+    background-color: #008080;
+    border-color: #008080; }
     .btn-check:checked + .btn-primary:focus,
     .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus,
     .show > .btn-primary.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(211, 48, 173, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(0, 128, 128); }
   .btn-primary:disabled, .btn-primary.disabled {
     color: #fff;
-    background-color: #cb0c9f;
-    border-color: #cb0c9f; }
+    background-color: #008080;
+    border-color: #008080; }
 
 .btn-secondary {
   color: #000;
@@ -12826,7 +12826,7 @@ svg.text-primary .color-foreground {
   fill: #7928CA; }
 
 svg.text-primary .color-background {
-  fill: #FF0080; }
+  fill: #008080; }
 
 svg.text-secondary .color-foreground {
   fill: #627594; }
@@ -13274,7 +13274,7 @@ hr.horizontal {
   .navbar-vertical.navbar-expand-xs .lavalamp-object {
     width: calc(100% - 1rem) !important;
     background: theme-color("primary");
-    color: color-yiq(#cb0c9f);
+    color: color-yiq(#008080);
     margin-right: 0.5rem;
     margin-left: 0.5rem;
     padding-left: 1rem;
@@ -13340,7 +13340,7 @@ hr.horizontal {
     .navbar-vertical.navbar-expand-sm .lavalamp-object {
       width: calc(100% - 1rem) !important;
       background: theme-color("primary");
-      color: color-yiq(#cb0c9f);
+      color: color-yiq(#008080);
       margin-right: 0.5rem;
       margin-left: 0.5rem;
       padding-left: 1rem;
@@ -13406,7 +13406,7 @@ hr.horizontal {
     .navbar-vertical.navbar-expand-md .lavalamp-object {
       width: calc(100% - 1rem) !important;
       background: theme-color("primary");
-      color: color-yiq(#cb0c9f);
+      color: color-yiq(#008080);
       margin-right: 0.5rem;
       margin-left: 0.5rem;
       padding-left: 1rem;
@@ -13472,7 +13472,7 @@ hr.horizontal {
     .navbar-vertical.navbar-expand-lg .lavalamp-object {
       width: calc(100% - 1rem) !important;
       background: theme-color("primary");
-      color: color-yiq(#cb0c9f);
+      color: color-yiq(#008080);
       margin-right: 0.5rem;
       margin-left: 0.5rem;
       padding-left: 1rem;
@@ -13538,7 +13538,7 @@ hr.horizontal {
     .navbar-vertical.navbar-expand-xl .lavalamp-object {
       width: calc(100% - 1rem) !important;
       background: theme-color("primary");
-      color: color-yiq(#cb0c9f);
+      color: color-yiq(#008080);
       margin-right: 0.5rem;
       margin-left: 0.5rem;
       padding-left: 1rem;
@@ -13604,7 +13604,7 @@ hr.horizontal {
     .navbar-vertical.navbar-expand-xxl .lavalamp-object {
       width: calc(100% - 1rem) !important;
       background: theme-color("primary");
-      color: color-yiq(#cb0c9f);
+      color: color-yiq(#008080);
       margin-right: 0.5rem;
       margin-left: 0.5rem;
       padding-left: 1rem;
@@ -13712,7 +13712,7 @@ hr.horizontal {
   color: #344767;
   background-color: #fff; }
   .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon {
-    background-image: linear-gradient(310deg, #cb0c9f 0%, #cb0c9f 100%); }
+    background-image: linear-gradient(310deg, #008080 0%, #008080 100%); }
     .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon svg .color-background,
     .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon svg .color-foreground {
       fill: #fff; }
