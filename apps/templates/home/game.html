@@ -34,12 +34,13 @@
                                         canvas {
                                             background-image: url("../../static/assets/img/game/AreYouReady2.PNG"); /* The image used */
                                             background-color: white;
-                                            height: 90%; /* You must set a specified height */
-                                            width: 90%;
+                                            height: 70%; /* You must set a specified height */
+                                            width: 70%;
                                             display: flex;
-                                            background-position: center; /* Center the image */
+                                            background-position: center ; /* Center the image */
                                             background-repeat: no-repeat; /* Do not repeat the image */
                                             background-size: cover; /* Resize the background image to cover the entire container */
+
                                         }
 
                                     </style>
@@ -90,6 +91,7 @@
         let food, food1, food2, food3, food4, food5;
         let score;
         let isPaused;
+        let isPaused2;
 
         let doneRating = false;
         let ratings = new Map();
@@ -288,19 +290,22 @@
                         this.tail.push({});
                         return true;
                     }
+                    else return false;
                 }
-                if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40)) {
-                    this.update_rating(1);
-                } else if ((Math.abs(this.x - food2.x) < 40 && Math.abs(this.y - food2.y) < 40)) {
-                    this.update_rating(2);
-                } else if ((Math.abs(this.x - food3.x) < 40 && Math.abs(this.y - food3.y) < 40)) {
-                    this.update_rating(3);
-                } else if ((Math.abs(this.x - food4.x) < 40 && Math.abs(this.y - food4.y) < 40)) {
-                    this.update_rating(4);
-                } else if ((Math.abs(this.x - food5.x) < 40 && Math.abs(this.y - food5.y) < 40)) {
-                    this.update_rating(5);
-                } else {
-                    return false;
+                else {
+                    if ((Math.abs(this.x - food1.x) < 40 && Math.abs(this.y - food1.y) < 40)) {
+                        this.update_rating(1);
+                    } else if ((Math.abs(this.x - food2.x) < 40 && Math.abs(this.y - food2.y) < 40)) {
+                        this.update_rating(2);
+                    } else if ((Math.abs(this.x - food3.x) < 40 && Math.abs(this.y - food3.y) < 40)) {
+                        this.update_rating(3);
+                    } else if ((Math.abs(this.x - food4.x) < 40 && Math.abs(this.y - food4.y) < 40)) {
+                        this.update_rating(4);
+                    } else if ((Math.abs(this.x - food5.x) < 40 && Math.abs(this.y - food5.y) < 40)) {
+                        this.update_rating(5);
+                    } else {
+                        return false;
+                    }
                 }
 
                 // Adding to the tail.
@@ -403,20 +408,14 @@
             food4 = new Food(4, spawnLocation());
             food5 = new Food(5, spawnLocation());
         }
-        // delay for the food
-        function waitForIt() {
-            if (isPaused) {
-                setTimeout(function () {waitForIt()}, 200);
-            }
-        }
 
         // Updating the position and redrawing of game objects.
         function update() {
             // Checking if game is paused.
-            if (isPaused ) {
+            if (isPaused || isPaused2) {
                 return;
             }
-            isPaused=true;
+            isPaused2=true;
             snake.border();
 
             if (snake.eat()) {
@@ -431,7 +430,6 @@
                     food5 = new Food(5, spawnLocation());
                 }
             }
-            isPaused=false;
             // Clearing the canvas for redrawing.
             ctx.clearRect(0, 0, width, height);
 
@@ -454,6 +452,7 @@
                 snake.move();
                 showScore();
             }
+             isPaused2=false;
         }
 
         // The actual game function.
