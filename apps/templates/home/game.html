@@ -34,9 +34,11 @@
                                         canvas {
                                             background-image: url("../../static/assets/img/game/AreYouReady2.PNG"); /* The image used */
                                             background-color: white;
-                                            height: 70%; /* You must set a specified height */
-                                            width: 70%;
+                                            height: 75%; /* You must set a specified height */
+                                            width: 75%;
                                             display: flex;
+                                            padding: 0;
+                                            margin: auto;
                                             background-position: center ; /* Center the image */
                                             background-repeat: no-repeat; /* Do not repeat the image */
                                             background-size: cover; /* Resize the background image to cover the entire container */
@@ -61,7 +63,9 @@
                                             id="startGameButton">start
                                     </button>
                                 </p>
-                                <canvas id="game-area"></canvas>
+                                <h5 id="question-area" style="color: #3498DB; text-align: center"> </h5>
+                                <p> </p>
+                                <canvas id="game-area" style="text-align: center"></canvas>
                                 <script type="text/javascript">
 
 
@@ -170,18 +174,16 @@
         function showScore() {
 
             ctx.textAlign = "center";
-            ctx.font = "bold 30px sans-serif";
+            ctx.font = "bold 35px sans-serif";
             ctx.fillStyle = "black";
-            ctx.fillText("SCORE: " + score, width - 120, 30);
+            ctx.fillText("SCORE: " + score, width - 120, 40);
 
         }
 
         function showNextQuestion() {
+
             if (currIndex < numQuestions) {
-                ctx.textAlign = "center";
-                ctx.font = "bold 30px sans-serif";
-                ctx.fillStyle = "black";
-                ctx.fillText(questions[currIndex], width - 1000, 30);
+                document.getElementById("question-area").innerText = questions[currIndex]
             }
         }
 
@@ -279,6 +281,7 @@
 
                 if (currIndex == numQuestions) {
                     doneRating = true;
+                    document.getElementById("question-area").innerText = "Thank you for rating " + courseName +". Your rating will be submitted once the game is over.";
                 }
             }
 
@@ -463,7 +466,11 @@
             const buttonElement = document.getElementById("startGameButton");
             buttonElement.remove();
 
-            document.getElementById("game-area").style.background = "url(../../static/assets/img/game/background.jpeg)";
+            const gameAreaElement = document.getElementById("game-area");
+            gameAreaElement.style.background = "url(../../static/assets/img/game/background.jpeg)";
+            gameAreaElement.display = "flex";
+            gameAreaElement.style.backgroundSize = "cover";
+
             startGame()
             init();
 
