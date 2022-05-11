@@ -60,7 +60,7 @@ def course(course_id):
         features.append(('id' + str(question.id), question.feature, answer.sum_ratings / answer.num_ratings))
     return render_template('home/course.html', course=course, featurs=features, comments=comments,
                            like_status=like_status, thumb_colors=thumb_colors, comments_likes=comments_likes,
-                           comments_dislikes=comments_dislikes)
+                           comments_dislikes=comments_dislikes, round = round)
 
 
 # @login_required
