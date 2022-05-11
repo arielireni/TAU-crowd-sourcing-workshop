@@ -16,6 +16,9 @@
                     </div>
                     <div class="card-body pt-4 p-3">
                         <ul class="list-group">
+                            {% if courses|length == 0 %}
+                                <li class="list-group-item">Please rate more courses to unlock this feature.</li>
+                            {%  endif %}
                             {% for i in range(courses|length) %}
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
@@ -32,7 +35,9 @@
                     </div>
                 </div>
             <br>
+            {% if courses|length > 0 %}
             <p>These courses were recommended to you because students with similar opinions to yours liked them.</p>
+            {% endif %}
             </div>
         </div>
     </div>
