@@ -68,10 +68,20 @@
                   <span class="text-xs font-weight-bold">{{current_user.credits}}</span>
                 </div>
               </div>
-              <div class="progress">
-                 <! w-X where x is the % of the color />
-                <div class="progress-bar bg-gradient-info w-{{current_user.credits}}" role="progressbar" aria-valuenow="{{current_user.credits}}" aria-valuemin="0" aria-valuemax="122"></div>
-              </div>
+              <head>
+                <style>
+                  progress[value] {
+
+                   background-color: blue;
+                    width: 800px;
+                    height: 30px;
+                    border-radius: 30px;
+                    border: 5px solid #CED8D6;
+                  }
+                </style>
+                  </head>
+                  <body>
+                  <progress value="{{current_user.credits}}"; max="122"; class="progress-bar bg-info"></progress> </body>
             </div>
           </td>
           <center>
@@ -95,12 +105,12 @@
                         Congratulations!
                       </h5>
                     </a>
-                      <p> you have finished {{ current_user.credits }} out of 122 required credits </p>
+                      <p> you have finished {{ counter }} out of 122 required credits </p>
                     </div>
+                   <script type="text/javascript"></script>
                   </div>
                 </div>
               </div>
-
           </div>
         </div>
       </div>
@@ -115,4 +125,6 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+{% endblock javascripts %}
