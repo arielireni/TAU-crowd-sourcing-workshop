@@ -27,8 +27,8 @@
                                         canvas {
                                             background-image: url("../../static/assets/img/game/AreYouReady2.PNG"); /* The image used */
                                             background-color: white;
-                                            height: 75%; /* You must set a specified height */
-                                            width: 75%;
+                                            height: 65%; /* You must set a specified height */
+                                            width: 65%;
                                             display: flex;
                                             padding: 0;
                                             margin: auto;
@@ -108,21 +108,6 @@
 
         let select = document.getElementById('course');
         let courseName = select.options[select.selectedIndex].value;
-
-        const arrow_keys_handler = function (e) {
-                switch (e.code) {
-                    case "ArrowUp":
-                    case "ArrowDown":
-                    case "ArrowLeft":
-                    case "ArrowRight":
-                    case "Space":
-                        e.preventDefault();
-                        break;
-                    default:
-                        break; // do not block other keys
-                }
-            };
-        window.addEventListener("keydown", arrow_keys_handler, false);
 
         function startGame() {
 
