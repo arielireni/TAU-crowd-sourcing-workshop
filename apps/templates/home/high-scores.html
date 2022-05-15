@@ -14,8 +14,7 @@
                     <div class="card-header pb-0">
                         <div class="row">
                             <h2 style="color: #800020; margin-bottom: 3%; text-align: center"><b>Game Over!</b></h2>
-                            <h6 style="margin-bottom: 3%; text-align: center">&#8226; Your score
-                                was: {{ user_score }}</h6>
+                            <h6 id="score" style="margin-bottom: 3%; text-align: center">&#8226; </h6>
                             <p style="text-align:center;">
                                 <img src="/static/assets/img/game/gif.gif" class=center
                                      style="width:120px;height:120px;">
@@ -65,4 +64,10 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    
+    <script>
+        document.getElementById("score").innerText = "Your score was: " + localStorage.getItem("userScore");
+    </script>
+
+{% endblock javascripts %}

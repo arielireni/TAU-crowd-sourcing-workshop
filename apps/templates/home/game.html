@@ -468,6 +468,8 @@
         }
 
         function sendGameDetails() {
+            localStorage.setItem("userScore", score);
+
             // Initialize details with the user's ratings
             const details = new Map(ratings);
             details.set("selectedCourse", courseName);
