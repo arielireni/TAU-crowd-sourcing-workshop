@@ -9,7 +9,6 @@ from flask import render_template, request, url_for, redirect
 from apps.authentication.models import *
 from apps.game import blueprint
 
-last_score = 0
 
 @login_required
 @blueprint.route('/game.html', methods=['GET', 'POST'])
@@ -67,9 +66,6 @@ def get_game_details(details):
     if game_score > user.best_score:
         user.best_score = game_score
 
-    global last_score
-    last_score = game_score
-
     db.session.commit()
 
     return "details submitted!"
@@ -78,8 +74,7 @@ def get_game_details(details):
 @login_required
 @blueprint.route('/high-scores.html', methods=['GET'])
 def high_scores():
-    global last_score
     best_scores = Users.query.order_by(Users.best_score).all()[-10:]
     best_scores = [result for result in best_scores if result.best_score != 0]
 
-    return render_template('home/' + 'high-scores.html', best_scores=best_scores, user_score=last_score)
+    return render_template('home/' + 'high-scores.html', best_scores=best_scores)
