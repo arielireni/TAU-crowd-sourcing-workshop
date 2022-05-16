@@ -8,7 +8,7 @@
 {% block content %}
 
   <div class="container-fluid">
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/static/assets/img/curved-images/point.jpeg'); background-position-y: 50%;">
+    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/static/assets/img/checkpoint.jpeg'); background-position-y: 50%;">
       <span class="mask bg-gradient-primary opacity-2"></span>
     </div>
     <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
@@ -84,21 +84,10 @@
                   <progress value="{{current_user.credits}}"; max="122"; class="progress-bar bg-info"></progress> </body>
             </div>
           </td>
-          <center>
-            <div id="countdown-container">
-              <div id="countdown">
-                <span id="days">
-                {#  {{ 122 - current_user.credits }} credits to go</span> #}
-              </div>
-            </div>
-          </center>
           <div class="card-body p-3">
             <div class="row">
               <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
                 <div class="card card-blog card-plain">
-                  <div class="position-relative">
-
-                  </div>
                   <div class="card-body px-1 pb-0">
                     <a href="javascript:;">
                       <h5>
