@@ -23,7 +23,8 @@
                                 {% if messages %}
                                     <ul class="flashes">
                                         {% for message in messages %}
-                                            <li>{{ message }}</li>
+                                        <div style="text-align: center;">
+                                        <span style="color:blue"  >{{ message }}</span>
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
