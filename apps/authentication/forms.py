@@ -36,5 +36,5 @@ class CreateAccountForm(FlaskForm):
                           id='lname_create',
                           validators=[DataRequired()])
     image = StringField('Image',
-                          id='pwd_create',
+                          id='img_create',
                           validators=[DataRequired()])

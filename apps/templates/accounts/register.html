@@ -7,102 +7,97 @@
 
 {% block content %}
 
-    <section>
-        <div class="page-header section-height-75">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-                        <div class="card card-plain mt-8">
-                            <div class="card-header pb-0 text-left bg-transparent">
-                                <h4 class="text-info text-gradient">
-                                    Register
-                                </h4>
-                                <p style="color:blue" class="mb-0">
-                                    {% if msg %}
-                                        {{ msg | safe }}
-                                    {% else %}
-                                        Add your credentials
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="card-body">
-                                <form role="form text-left" method="post" action="">
+  <section>
+    <div class="page-header section-height-75">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+            <div class="card card-plain mt-8">
+              <div class="card-header pb-0 text-left bg-transparent">
+                <h4 class="text-info text-gradient">
+                 Register
+                </h4>
+                <p style="color:blue" class="mb-0">
+                    {% if msg %}
+                        {{ msg | safe }}
+                    {% else %}
+                        Add your credentials
+                    {% endif %}
+                </p>
+              </div>
+              <div class="card-body">
+                <form role="form text-left" method="post" action="">
 
-                                    {{ form.hidden_tag() }}
+                  {{ form.hidden_tag() }}
 
-                                    <label>Username</label>
-                                    <div class="mb-3">
-                                        {{ form.username(placeholder="Username", class="form-control") }}
-                                    </div>
-                                    <label>Email</label>
-                                    <div class="mb-3">
-                                        {{ form.email(placeholder="Email", class="input form-control", type="email") }}
-                                    </div>
-                                    <label>Password</label>
-                                    <div class="mb-3">
-                                        {{ form.password(placeholder="Password", class="form-control", type="password") }}
-                                    </div>
-                                    <label>First Name</label>
-                                    <div class="mb-3">
-                                        {{ form.fname(placeholder="First Name", class="form-control", type="fname") }}
-                                    </div>
-                                    <label>Last Name</label>
-                                    <div class="mb-3">
-                                        {{ form.lname(placeholder="Last Name", class="form-control", type="lname") }}
-                                    </div>
-                                    <body>
-                                    <label>Profile Picture</label>
-                                    <div class="mb-3">
-                                        <p>
-                                            <button onclick="sendImageDetails1()" class="btn btn-primary "><img
-                                                    src="/static/assets/img/user-profile/boy.jpg"
-                                                    class="img-fluid img-thumbnail" width="100" height="100"/></button>
-                                            <button onclick="sendImageDetails2()" class="btn btn-primary "><img
-                                                    src="/static/assets/img/user-profile/girl.jpg"
-                                                    class="img-fluid img-thumbnail" width="100" height="100"/></button>
-                                        </p>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" name="register"
-                                                class="btn bg-gradient-info w-100 mt-4 mb-0">Sign UP
-                                        </button>
-                                    </div>
-                                    </body>
-                                </form>
-                            </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                <p class="mb-4 text-sm mx-auto">
-                                    Already have an account?
-                                    <a href="{{ url_for('authentication_blueprint.login') }}"
-                                       class="text-info text-gradient font-weight-bold">Sign IN</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                            <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                                 style="background-image:url('/static/assets/img/log-in/TripAdvisorLogo.png')"></div>
-                        </div>
-                    </div>
-                </div>
+                  <label>Username</label>
+                  <div class="mb-3">
+                    {{ form.username(placeholder="Username", class="form-control") }}
+                  </div>
+                  <label>Email</label>
+                  <div class="mb-3">
+                    {{ form.email(placeholder="Email", class="input form-control", type="email") }}
+                  </div>
+                  <label>Password</label>
+                  <div class="mb-3">
+                    {{ form.password(placeholder="Password", class="form-control", type="password") }}
+                  </div>
+                  <label>First Name</label>
+                  <div class="mb-3">
+                    {{ form.fname(placeholder="First Name", class="form-control", type="fname") }}
+                  </div>
+                  <label>Last Name</label>
+                  <div class="mb-3">
+                    {{ form.lname(placeholder="Last Name", class="form-control", type="lname") }}
+                  </div>
+                  <label>
+                    <input type="radio"  id="img1" name="image" onclick=" {{ form.image( class="form-control", value="profile_pic/boy1.jpg" )}}
+                    <img for="img1" src="/static/assets/img/user-profile/boy.jpg"  class="img-fluid img-thumbnail" width="100" height="100"/><br>
+                  </label>
+                  <label>
+                    <input type="radio" id="img2" name="image" onclick=" {{ form.image(class="form-control", value="profile_pic/girl2.jpg" )}}
+                    <img for="img2" src="/static/assets/img/user-profile/girl.jpg"  class="img-fluid img-thumbnail" width="100" height="100"/><br>
+                  </label>
+                  <body>
+                  <div class="text-center">
+                    <button type="submit" name="register" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign UP</button>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                <p class="mb-4 text-sm mx-auto">
+                  Already have an account?
+                  <a href="{{ url_for('authentication_blueprint.login') }}"
+                     class="text-info text-gradient font-weight-bold">Sign IN</a>
+                </p>
+              </div>
             </div>
+          </div>
+          <div class="col-md-6">
+            <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+              <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('/static/assets/img/log-in/TripAdvisorLogo.png')"></div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
 
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+
+  </script>
 
 {% endblock javascripts %}
