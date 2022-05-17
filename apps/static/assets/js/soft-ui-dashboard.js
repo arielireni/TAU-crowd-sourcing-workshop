@@ -1,3 +1,7 @@
+/*
+  Copyright 2011-2021 The Bootstrap Authors
+ */
+
 "use strict";
 (function() {
   var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;

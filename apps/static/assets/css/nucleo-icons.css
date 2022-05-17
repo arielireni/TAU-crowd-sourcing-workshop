@@ -1,9 +1,10 @@
 /*--------------------------------
 
-hermes-dashboard-icons Web Font - built using nucleoapp.com
-License - nucleoapp.com/license/
+dashboard-icons Web Font - built using nucleoapp.com
+all icon font classes list here
 
 -------------------------------- */
+
 @font-face {
   font-family: 'NucleoIcons';
   src: url('../fonts/nucleo-icons.eot');
@@ -593,5 +594,3 @@ License - nucleoapp.com/license/
   content: "\ea65";
 }
 
-
-/* all icon font classes list here */

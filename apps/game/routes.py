@@ -1,7 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 import json
 from flask_login import login_required, current_user
 from apps.home.routes import get_segment
