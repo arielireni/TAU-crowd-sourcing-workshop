@@ -29,7 +29,7 @@ def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
     taken_courses = [course.course_id for course in curr_user.courses]
     untaken_courses = Courses.query.filter(Courses.id.notin_(taken_courses)).all()
     closest_users_opinions = UsersCourses.query.filter(UsersCourses.user_id.in_(closest_users),
-                                                        ).all()
+                                                       ).all()
     untaken_courses = {course.id: (course, 0, 0) for course in
                        untaken_courses}  # first is course, second is sum of ratings, third is number of ratings
     for opinion in closest_users_opinions:
@@ -53,5 +53,5 @@ def collaborative_filtering(curr_user: Users, k=5, thres=0, num_recommendations=
 
 
 def recommend_courses(curr_user: Users):
-    # TODO: add another recommendation method
-    return collaborative_filtering(curr_user)
+    num_users = Users.query.count()
+    return collaborative_filtering(curr_user, k=int(num_users / 10), thres=2, num_recommendations=5)
