@@ -13,16 +13,24 @@
                 <div class="card">
                     <div class="card-header pb-0 px-3">
                         <h6 class="mb-0">Give these a try! </h6>
+
+                        {% if courses|length > 0 %}
+                            <span class="mb-4 text-s">These courses were recommended to you because students with similar opinions to
+                                yours liked
+                                them.</span>
+
+                        {% endif %}
                     </div>
                     <div class="card-body pt-4 p-3">
                         <ul class="list-group">
                             {% if courses|length == 0 %}
                                 <li class="list-group-item">Please rate more courses to unlock this feature.</li>
-                            {%  endif %}
+                            {% endif %}
                             {% for i in range(courses|length) %}
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <a href="course={{ courses[i][0].id }}"> <h6 class="mb-3 text-sm">{{ courses[i][0] }}</h6> </a>
+                                        <a href="course={{ courses[i][0].id }}"><h6
+                                                class="mb-3 text-sm">{{ courses[i][0] }}</h6></a>
                                         <span class="mb-2 text-xs">This course has an average rating of {{ round((courses[i][1]/courses[i][2])*100)/100 }} among students like you.</span>
                                         <span class="mb-2 text-xs">Most dominant feature: {{ best_worst_questions[i][0].question.feature }}
                                              with rating {{ round((best_worst_questions[i][0].sum_ratings / best_worst_questions[i][0].num_ratings)*100)/100 }}</span>
@@ -34,10 +42,7 @@
                         </ul>
                     </div>
                 </div>
-            <br>
-            {% if courses|length > 0 %}
-            <p>These courses were recommended to you because students with similar opinions to yours liked them.</p>
-            {% endif %}
+                <br>
             </div>
         </div>
     </div>
