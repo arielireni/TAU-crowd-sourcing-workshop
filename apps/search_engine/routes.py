@@ -13,24 +13,30 @@ def index():
     category = request.form.get("category")
     questions = db.session.query(Questions).all()
     num_questions = db.session.query(Questions).count()
+
     if request.method == 'POST':
         search_string = request.form.get("search_string")
         search_string = search_string if len(search_string) > 0 else 'All'
+        # Check how many sorting questions were marked as 'Any'
         for q in questions:
             if request.form.get('question-' + str(q.id)) == 'Any':
                 count += 1
+        # In case all sorting questions were marked as 'Any'
         if count == num_questions:
+            # Perform search by  the search string
             return redirect(
                 url_for('searchengine_blueprint.search_results', search_string=search_string, category=category,
                         question=0, ratings='0'))
         else:
+            # Perform search by the search string and sort the results
             first_id = db.session.query(Questions).first().id
             ratings = []
+            # Create a list of tuples of chosen question ids to sort by and the rating
             for q in questions:
                 answer = request.form.get('question-' + str(q.id))
                 if answer != 'Any':
                     ratings.append((q.id - first_id, int(answer)))
-            # convert ratings to string
+            # Convert ratings to string
             str_ratings = ''
             for r in ratings:
                 str_ratings += str(r[0]) + ',' + str(r[1]) + ','
@@ -43,15 +49,17 @@ def index():
 @blueprint.route('/results.html?str=<search_string>&category=<category>&question=<question>&ratings=<ratings>')
 def search_results(search_string, category, question, ratings):
     question = int(question)
-    # convert ratings to list
+    # Convert ratings to list
     if search_string == 'All':
         search_string = None
+
     if ratings != '0':
         ratings = ratings.split(',')
         ratings = [(int(ratings[2*i]), int(ratings[2*i + 1])) for i in range(int(len(ratings)/2))]
     else:
         ratings = []
     taken_courses = [course.course_id for course in current_user.courses]
+
     if search_string:
         results = se.search_course(category, search_string)
         if question == 1 and len(results) > 1:
@@ -59,6 +67,7 @@ def search_results(search_string, category, question, ratings):
     else:
         qry = db.session.query(Courses)
         results = qry.all()
+        # In case at least one question was picked
         if question == 1 and len(results) > 1:
             results = se.get_closest_courses(ratings, results)
     if not results:
