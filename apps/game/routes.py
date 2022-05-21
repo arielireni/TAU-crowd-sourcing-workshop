@@ -1,7 +1,7 @@
 import json
 from flask_login import login_required, current_user
 from apps.home.routes import get_segment
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request
 from apps.authentication.models import *
 from apps.game import blueprint
 
@@ -39,38 +39,42 @@ def get_game_details(details):
         sum_ratings += rate
         course = Courses.query.filter_by(name=selected_course).first()
         question_rate = CoursesQuestions.query.filter_by(course_id=course.id, question_id=question_id).first()
+
+        # If this is the first rating for this course, add new data to CoursesQuestions
         if question_rate is None:
             question_rate = CoursesQuestions(course_id=course.id, question_id=question_id, sum_ratings=rate,
                                              num_ratings=1)
             db.session.add(question_rate)
 
+        # Otherwise, update the existing data with the current rating
         else:
             question_rate.sum_ratings += rate
             question_rate.num_ratings += 1
 
-    user = current_user
-
-    # Mark course as done after summiting the ratings
-    done_course = UsersCourses(user_id=user.id, course_id=course.id, rating=overall_rating)
+    # Mark the course as done for this user after summiting the ratings
+    done_course = UsersCourses(user_id=current_user.id, course_id=course.id, rating=overall_rating)
     db.session.add(done_course)
 
     # Update user credits
-    user.credits += course.credit_points
+    current_user.credits += course.credit_points
 
     # Update best score if needed
     game_score = details[len(details) - 1][1]
-    if game_score > user.best_score:
-        user.best_score = game_score
+    if game_score > current_user.best_score:
+        current_user.best_score = game_score
 
     db.session.commit()
 
-    return "details submitted!"
+    return "Rating submitted!"
 
 
 @login_required
 @blueprint.route('/high-scores.html', methods=['GET'])
 def high_scores():
+    # Get the best 10 scores
     best_scores = Users.query.order_by(Users.best_score).all()[-10:]
+
+    # If there are less than 10, update the list
     best_scores = [result for result in best_scores if result.best_score != 0]
 
     return render_template('home/' + 'high-scores.html', best_scores=best_scores)
