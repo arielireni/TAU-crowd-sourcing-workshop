@@ -1,3 +1,5 @@
+import sys
+
 from apps.authentication.models import *
 from math import sqrt
 
@@ -41,9 +43,12 @@ def get_closest_courses(ratings, results):
     norms=[]
     for course in results:
         my_questions = course.questions
-        course_ratings = [0 for q in my_questions]
-        for q in my_questions:
-            course_ratings[q.question_id - first_id] = q.sum_ratings/q.num_ratings
-        norms.append((course, calculate_norm(ratings, course_ratings)))
-    norms.sort(key=lambda y:y[1], reverse=False)
+        if not my_questions:
+            norms.append((course, sys.maxsize))
+        else:
+            course_ratings = [0 for q in my_questions]
+            for q in my_questions:
+                course_ratings[q.question_id - first_id] = q.sum_ratings/q.num_ratings
+            norms.append((course, calculate_norm(ratings, course_ratings)))
+        norms.sort(key=lambda y:y[1], reverse=False)
     return [x[0] for x in norms]
