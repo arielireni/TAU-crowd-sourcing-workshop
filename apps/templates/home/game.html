@@ -148,6 +148,18 @@
             xPos = Math.floor(Math.random() * rows) * tileSize;
             yPos = Math.floor(Math.random() * cols) * tileSize;
 
+            // Avoid placing food near the game frame
+            if (xPos < 100) {
+                xPos += 100;
+            } else if (xPos > width - 100) {
+                xPos -= 100;
+            }
+            if (yPos < 100) {
+                yPos += 100;
+            } else if (yPos > height - 100) {
+                yPos -= 100;
+            }
+
             return {x: xPos, y: yPos};
         }
 
