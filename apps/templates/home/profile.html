@@ -7,109 +7,115 @@
 
 {% block content %}
 
-  <div class="container-fluid">
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/static/assets/img/checkpoint.jpeg'); background-position-y: 50%;">
-      <span class="mask bg-gradient-primary opacity-2"></span>
-    </div>
-    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
-      <div class="row gx-4">
-        <div class="col-auto">
-          <div class="avatar avatar-xl position-relative">
-            <img src="/static/assets/img/{{ current_user.image }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-          </div>
+    <div class="container-fluid">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('/static/assets/img/checkpoint.jpeg'); background-position-y: 50%;">
+            <span class="mask bg-gradient-primary opacity-2"></span>
         </div>
-        <div class="col-auto my-auto">
-          <div class="h-100">
-            <h5 class="mb-1">
-              {{ current_user }}
-            </h5>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-          <div class="nav-wrapper position-relative end-0">
-            <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="container-fluid py-4">
-      <div class="col-12 col-xl-4">
-        <div class="card h-100">
-          <div class="card-header pb-0 p-3">
-            <div class="row">
-                <h6 class="mb-0">Profile Information</h6>
-            </div>
-          </div>
-          <div class="card-body p-3">
-            <hr class="horizontal gray-light my-2">
-            <ul class="list-group">
-              <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp;{{ current_user.fname }} {{ current_user.lname }} </li>
-              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp;{{ current_user.email }} </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 mt-4">
-        <div class="card mb-4">
-          <div class="card-header pb-0 p-3">
-            <h6 class="mb-1">Timeline</h6>
-            <p class="text-sm">יום שעובר לא חוזר</p>
-          </div>
-          <! progress bar here />
-          <td class="align-middle">
-            <div class="progress-wrapper w-75 mx-auto">
-              <div class="progress-info">
-                <div class="progress-percentage">
-                   <! needs a var to print />
-                  <span class="text-xs font-weight-bold">{{current_user.credits}}</span>
-                </div>
-              </div>
-              <head>
-                <style>
-                  progress[value] {
-
-                   background-color: blue;
-                    width: 800px;
-                    height: 30px;
-                    border-radius: 30px;
-                    border: 5px solid #CED8D6;
-                  }
-                </style>
-                  </head>
-                  <body>
-                  <progress value="{{current_user.credits}}"; max="122"; class="progress-bar bg-info"></progress> </body>
-            </div>
-          </td>
-          <div class="card-body p-3" style="width: 150%">
-            <div class="row">
-              <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-                <div class="card card-blog card-plain">
-                  <div class="card-body px-1 pb-0">
-                    <a href="javascript:;">
-                      <h5>
-                        Congratulations!
-                      </h5>
-                    </a>
-                      <p> you have finished {{ current_user.credits }} out of 122 required credits </p>
+        <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        <img src="/static/assets/img/{{ current_user.image }}" alt="profile_image"
+                             class="w-100 border-radius-lg shadow-sm">
                     </div>
-                   <script type="text/javascript"></script>
-                  </div>
                 </div>
-              </div>
-          </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            {{ current_user }}
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <div class="nav-wrapper position-relative end-0">
+                        <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-</div>
+    </div>
+
+
+    <div class="container-fluid py-4">
+        <div class="col-12 col-xl-4">
+            <div class="card h-100">
+                <div class="card-header pb-0 p-3">
+                    <div class="row">
+                        <h6 class="mb-0">Profile Information</h6>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <hr class="horizontal gray-light my-2">
+                    <ul class="list-group">
+                        <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full
+                            Name:</strong> &nbsp;{{ current_user.fname }} {{ current_user.lname }} </li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong>
+                            &nbsp;{{ current_user.email }} </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="card mb-4">
+                <div class="card-header pb-0 p-3">
+                    <h6 class="mb-1">Timeline</h6>
+                    <p class="text-sm">יום שעובר לא חוזר</p>
+                </div>
+                <! progress bar here />
+                <td class="align-middle">
+                    <div class="progress-wrapper w-75 mx-auto">
+                        <div class="progress-info">
+                            <div class="progress-percentage">
+                                <! needs a var to print />
+                                <span class="text-xs font-weight-bold">{{ current_user.credits }}</span>
+                            </div>
+                        </div>
+                        <head>
+                            <style>
+                                progress[value] {
+
+                                    background-color: blue;
+                                    width: 800px;
+                                    height: 30px;
+                                    border-radius: 30px;
+                                    border: 5px solid #CED8D6;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                        <progress value="{{ current_user.credits }}" ; max="122" ;
+                                  class="progress-bar bg-info"></progress>
+                        </body>
+                    </div>
+                </td>
+                <div class="card-body p-3" style="width: 150%">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                            <div class="card card-blog card-plain">
+                                <div class="card-body px-1 pb-0">
+                                    <a href="javascript:;">
+                                        <h5>
+                                            Congratulations!
+                                        </h5>
+                                    </a>
+                                    <p> you have finished {{ current_user.credits }} out of 122 required credits </p>
+                                </div>
+                                <script type="text/javascript"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </div>
 
     {% include "includes/footer.html" %}
 
-  </div>
+    </div>
 
 {% endblock content %}
 
