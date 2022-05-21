@@ -13,6 +13,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h1 style="color: #5e9ca0; text-align: center; margin-bottom: 25px ">Let's Play!</h1>
+                        <h6 style="text-align: center" id="instructions">Play & rate courses you have finished in order to gain credits and get better personalized recommendations!</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -419,6 +420,9 @@
             // Remove start button from the screen
             const buttonElement = document.getElementById("startGameButton");
             buttonElement.remove();
+
+            const instruction_sentence = document.getElementById("instructions");
+            instruction_sentence.remove();
 
             // Expose the game to the screen
             const gameAreaElement = document.getElementById("game-area");
