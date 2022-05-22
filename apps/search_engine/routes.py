@@ -71,7 +71,7 @@ def search_results(search_string, category, question, ratings):
         if question == 1 and len(results) > 1:
             results = se.get_closest_courses(ratings, results)
     if not results:
-        flash('No results found!')
+        flash('No results found! Please try again.')
         return redirect('/')
     else:
         # display results

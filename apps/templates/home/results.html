@@ -23,7 +23,7 @@
                 <table class="table table-hover table-bordered table-striped">
                 {% for course in results %}
                     <tr>
-                        <td><a href = "course={{ course.id }}"> {{ course.name }}</a></td>
+                        <td>{{ course.id }} - <a href="course={{ course.id }}"> {{ course.name }}</a></td>
                         <td>
                             {% if course.id in taken_courses %}
                              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
