@@ -1,4 +1,4 @@
-{% extends 'layouts/base_game.html' %}
+{% extends 'layouts/base-game.html' %}
 
 {% block title %} Game {% endblock title %}
 
@@ -331,10 +331,12 @@
                 isPaused = true;
                 ctx.beginPath();
                 if (this.id === 0) {
+                    // Draw a simple red circle
                     ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
                     ctx.fillStyle = "red"
                     ctx.fill()
                 } else {
+                    // Draw a circle with the food id written in it
                     ctx.font = "bold 30px Arial";
                     ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
                     ctx.fillStyle = "white"
