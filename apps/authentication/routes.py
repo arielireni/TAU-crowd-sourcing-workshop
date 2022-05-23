@@ -34,7 +34,6 @@ def login():
 
         # Check the password
         if user and verify_pass(password, user.password):
-
             login_user(user)
             return redirect(url_for('authentication_blueprint.route_default'))
 
@@ -79,7 +78,7 @@ def register():
         db.session.commit()
 
         return redirect(url_for('authentication_blueprint.login'))
-        #return render_template('accounts/register.html',
+        # return render_template('accounts/register.html',
         #                       msg='User created please <a href="/login">login</a>',
         #                       success=True,
         #                       form=create_account_form)
@@ -114,4 +113,3 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
-

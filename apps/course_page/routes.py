@@ -17,14 +17,14 @@ def course(course_id):
     course = Courses.query.filter_by(id=course_id).first()
     answers = CoursesQuestions.query.filter_by(course_id=course_id).all()
     comments = [comment for comment in Comments.query.filter_by(course_id=course_id).all()]
-    comments_likes = [] # comments_likes[i] = #likes of comments[i]
-    comments_dislikes = [] # comments_dislikes[i] = #dislikes of comments[i]
+    comments_likes = []  # comments_likes[i] = #likes of comments[i]
+    comments_dislikes = []  # comments_dislikes[i] = #dislikes of comments[i]
     for comment in comments:
         likes, dislikes = get_like_info(comment)
         comments_likes.append(likes)
         comments_dislikes.append(dislikes)
     comments = [(comments[i], comments_likes[i], comments_dislikes[i]) for i in range(len(comments))]
-    comments.sort(key=lambda x: x[1] - x[2], reverse=True) # sort comments by likes-dislikes
+    comments.sort(key=lambda x: x[1] - x[2], reverse=True)  # sort comments by likes-dislikes
     comments_likes = [comment[1] for comment in comments]
     comments_dislikes = [comment[2] for comment in comments]
     comments = [comment[0] for comment in comments]
@@ -41,6 +41,7 @@ def course(course_id):
     return render_template('home/course.html', course=course, featurs=features, comments=comments,
                            like_status=like_status, thumb_colors=thumb_colors, comments_likes=comments_likes,
                            comments_dislikes=comments_dislikes, round=round)
+
 
 # this function is called when the user clicks on the like button via ajax
 @login_required
