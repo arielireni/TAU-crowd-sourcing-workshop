@@ -55,7 +55,7 @@ def search_results(search_string, category, question, ratings):
 
     if ratings != '0':
         ratings = ratings.split(',')
-        ratings = [(int(ratings[2*i]), int(ratings[2*i + 1])) for i in range(int(len(ratings)/2))]
+        ratings = [(int(ratings[2 * i]), int(ratings[2 * i + 1])) for i in range(int(len(ratings) / 2))]
     else:
         ratings = []
     taken_courses = [course.course_id for course in current_user.courses]

@@ -2,6 +2,7 @@ import os
 import hashlib
 import binascii
 
+
 # Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
 
 

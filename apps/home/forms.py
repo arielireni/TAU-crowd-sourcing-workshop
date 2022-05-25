@@ -1,5 +1,6 @@
 from wtforms import Form, StringField, SelectField
 
+
 class CourseSearchForm(Form):
     choices = [('Lecturer', 'Lecturer'),
                ('Course', 'Course'),
