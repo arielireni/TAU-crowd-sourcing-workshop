@@ -1,5 +1,4 @@
 # TAU Crowd Sourcing Workshop
-Based on [Flask Soft UI Dashboard](https://appseed.us/product/flask-soft-ui-dashboard)
 
 ### Quick Start
 
