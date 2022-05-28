@@ -4,8 +4,7 @@
 
 ```bash
 $ # Get the code
-$ git clone https://github.com/app-generator/flask-soft-ui-dashboard.git
-$ cd flask-soft-ui-dashboard
+$ git clone https://github.com/arielireni/TAU-crowd-sourcing-workshop
 $
 $ # Virtualenv modules installation (Unix based systems)
 $ virtualenv env
