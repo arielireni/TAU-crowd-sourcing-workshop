@@ -14,6 +14,7 @@ def get_like_info(comment: Comments):
 @login_required
 @blueprint.route('course=<course_id>')
 def course(course_id):
+    print([a.course_id for a in current_user.taudata_courses])
     course = Courses.query.filter_by(id=course_id).first()
     answers = CoursesQuestions.query.filter_by(course_id=course_id).all()
     comments = [comment for comment in Comments.query.filter_by(course_id=course_id).all()]
