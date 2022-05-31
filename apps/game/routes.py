@@ -14,11 +14,13 @@ def game():
     num_questions = len(questions)
     user = current_user
     # Rate only undone courses
-    taken_courses = set([usercourse.course.id for usercourse in UsersCourses.query.filter_by(user_id=user.id).all()])
-    untaken_courses = Courses.query.filter(~Courses.id.in_(taken_courses)).all()
+    taken_courses = [a.course_id for a in current_user.taudata_courses]
+    print(taken_courses)
+    rated_courses = set([usercourse.course.id for usercourse in UsersCourses.query.filter_by(user_id=user.id).all()])
+    unrated_courses = Courses.query.filter(~Courses.id.in_(rated_courses)).filter(Courses.id.in_(taken_courses)).all()
 
     return render_template('home/' + 'game.html', segment=segment, questions=questions, num_questions=num_questions,
-                           courses=untaken_courses)
+                           courses=unrated_courses)
 
 
 @login_required
