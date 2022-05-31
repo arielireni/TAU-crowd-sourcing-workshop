@@ -39,9 +39,11 @@ def course(course_id):
         question_id = answer.question_id
         question = Questions.query.filter_by(id=question_id).first()
         features.append(('id' + str(question.id), question.feature, answer.sum_ratings / answer.num_ratings))
+    taken_courses = [a.course_id for a in current_user.taudata_courses]
+    print(taken_courses)
     return render_template('home/course.html', course=course, featurs=features, comments=comments,
                            like_status=like_status, thumb_colors=thumb_colors, comments_likes=comments_likes,
-                           comments_dislikes=comments_dislikes, round=round)
+                           comments_dislikes=comments_dislikes, round=round, taken_courses=taken_courses)
 
 
 # this function is called when the user clicks on the like button via ajax

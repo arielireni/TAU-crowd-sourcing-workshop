@@ -58,7 +58,7 @@ def search_results(search_string, category, question, ratings):
         ratings = [(int(ratings[2 * i]), int(ratings[2 * i + 1])) for i in range(int(len(ratings) / 2))]
     else:
         ratings = []
-    taken_courses = [course.course_id for course in current_user.courses]
+    rated_courses = [course.course_id for course in current_user.courses]
 
     if search_string:
         results = se.search_course(category, search_string)
@@ -75,4 +75,5 @@ def search_results(search_string, category, question, ratings):
         return redirect('/')
     else:
         # display results
-        return render_template('home/results.html', results=results, taken_courses=taken_courses)
+        return render_template('home/results.html', results=results, rated_courses=rated_courses,
+                               taken_courses=[course.course_id for course in current_user.taudata_courses])

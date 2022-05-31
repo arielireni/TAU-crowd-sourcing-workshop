@@ -165,13 +165,13 @@
 
     <div class="wrapper">
         <h1 style="color: #5e9ca0; text-align: center; margin-bottom: 25px ">{{ course.name }}</h1>
-{#        <h2 style="color: #2e6c80; text-align: center; ">Short Course Description</h2>#}
+        {#        <h2 style="color: #2e6c80; text-align: center; ">Short Course Description</h2>#}
         <div class="shape-1"></div>
         <div class="shape-2"></div>
         <div class="container">
-            <h2>What To Expect? </h2>
+            <h2>What To Expect?</h2>
             <br>
-{#            <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>#}
+            {#            <h5 style="text-align: center"> Average Ratings for {{ course }}</h5>#}
             {% if featurs|length == 0 %}
                 <h5 style="text-align: center">No ratings yet.</h5>
             {% endif %}
@@ -188,26 +188,36 @@
                 </div>
             {% endfor %}
         </div>
-
-
-        <div class="row">
-            <div class="col-md-20">
-                <div class="media g-mb-30 media-comment">
-                    <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                        <form method="post">
-                            <div class="g-mb-15" style="margin-bottom: 10px">
-                                <textarea name="comment" class="form-control" rows="2" placeholder="What do you think about {{ course.name }}?"></textarea>
-                            </div>
-                            <div class="mar-top clearfix">
-                                <input type="submit" class="btn btn-primary pull-right" value="Sumbit" >
-                            </div>
-                        </form>
+        {% if course.id in taken_courses %}
+            <div class="row">
+                <div class="col-md-20">
+                    <div class="media g-mb-30 media-comment">
+                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                            <form method="post">
+                                <div class="g-mb-15" style="margin-bottom: 10px">
+                                    <textarea name="comment" class="form-control" rows="2"
+                                              placeholder="What do you think about {{ course.name }}?"></textarea>
+                                </div>
+                                <div class="mar-top clearfix">
+                                    <input type="submit" class="btn btn-primary pull-right" value="Sumbit">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-    {% for i in range(comments|length) %}
+        {% else %}
+            <div class="row">
+                <div class="col-md-20">
+                    <div class="media g-mb-30 media-comment">
+                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                            <h5 style="text-align: center">You have to take this course first in order to comment.</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+  {% for i in range(comments|length) %}
         <div class="row">
             <div class="col-md-20">
                 <div class="media g-mb-30 media-comment">

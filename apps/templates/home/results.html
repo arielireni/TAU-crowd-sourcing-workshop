@@ -25,9 +25,14 @@
                     <tr>
                         <td><a href="course={{ course.id }}"> {{ course.name }}</a></td>
                         <td>
-                            {% if course.id in taken_courses %}
+                            {% if course.id in rated_courses %}
                              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>&#10004;</span>
+                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Rated</span>
+{#                                 &#10004;#}
+                                {%  elif course.id in taken_courses %}
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Completed</span>
+{#                                 &#10004;#}
                          {% endif %}
                         </td>
                     </tr>
