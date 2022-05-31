@@ -8,49 +8,59 @@
 {% block content %}
 
     <div class="container-fluid py-4">
-      <div class="row my-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6>Search Results</h6>
+        <div class="row my-4">
+            <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Search Results</h6>
+                            </div>
+                            {% if category == 'Lecturer' %}
+                                <div style="color: #4f5867"> These are all the courses that lecturers who matched your
+                                    search "{{ search_string }}" have lectured.
+                                    <br>
+                                    In order to get additional information, please visit the <a
+                                            href="https://www.ims.tau.ac.il/tal/kr/search_p.aspx" style="color: #0d6efd"> <u>yedion</u>.</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <br/>
+                        <table class="table table-hover table-bordered table-striped">
+                            {% for course in results %}
+                                <tr>
+                                    <td><a href="course={{ course.id }}"> {{ course.name }}</a></td>
+                                    <td>
+                                        {% if course.id in rated_courses %}
+                                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Rated</span>
+                                            {#                                 &#10004;#}
+                                        {% elif course.id in taken_courses %}
+                                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Completed</span>
+                                            {#                                 &#10004;#}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        <div style="text-align: center">
+                            <button type="button" onclick="window.location.href='index.html'"
+                                    class="btn btn-primary mb1 bg-teal">Back to Search
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="card-body px-0 pb-2">
-                <br/>
-                <table class="table table-hover table-bordered table-striped">
-                {% for course in results %}
-                    <tr>
-                        <td><a href="course={{ course.id }}"> {{ course.name }}</a></td>
-                        <td>
-                            {% if course.id in rated_courses %}
-                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Rated</span>
-{#                                 &#10004;#}
-                                {%  elif course.id in taken_courses %}
-                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span>Completed</span>
-{#                                 &#10004;#}
-                         {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </table>
-                <div style="text-align: center">
-                    <button type="button" onclick="window.location.href='index.html'" class="btn btn-primary mb1 bg-teal">Back to Search</button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      {% include "includes/footer.html" %}
+    {% include "includes/footer.html" %}
 
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %} {% endblock javascripts %}

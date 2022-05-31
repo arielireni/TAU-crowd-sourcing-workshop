@@ -76,4 +76,5 @@ def search_results(search_string, category, question, ratings):
     else:
         # display results
         return render_template('home/results.html', results=results, rated_courses=rated_courses,
-                               taken_courses=[course.course_id for course in current_user.taudata_courses])
+                               taken_courses=[course.course_id for course in current_user.taudata_courses],
+                               search_string=search_string, category=category)
