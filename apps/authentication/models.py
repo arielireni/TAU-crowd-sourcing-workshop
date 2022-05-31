@@ -14,7 +14,7 @@ class UsersCourses(db.Model):
     course = db.relationship("Courses", back_populates="users")
 
     def __repr__(self):
-        return f'user {self.user_id} has taken course {self.course_id}'
+        return f'user {self.user_id} has rated course {self.course_id}'
 
 
 class CoursesQuestions(db.Model):
@@ -70,6 +70,7 @@ class Users(db.Model, UserMixin):
     credits = db.Column(db.Integer, default=0)
     courses = db.relationship("UsersCourses", back_populates="user", lazy='dynamic')
     comments = db.relationship("UsersComments", back_populates="user", lazy='dynamic')
+    taudata_courses = db.relationship("TAUData", back_populates="user", lazy='dynamic')
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -98,6 +99,7 @@ class Courses(db.Model):
     users = db.relationship("UsersCourses", back_populates="course")
     questions = db.relationship("CoursesQuestions", back_populates="course")
     lecturers = db.relationship("CoursesLecturers", back_populates="course")
+    taudata_users = db.relationship("TAUData", back_populates="course")
 
     def __repr__(self):
         return f'{self.name}'
@@ -139,6 +141,17 @@ class Comments(db.Model):
 
     def __repr__(self):
         return f'{self.comment}'
+
+
+# added to the database as Slava and Kathy requested- this table should be updated with data from TAU.
+# Each row represents that the student whose mail is user_mail has finished the course whose id is course_id
+class TAUData(db.Model):
+    __tablename__ = 'TAUData'
+    user_mail = db.Column(db.ForeignKey('Users.email'), primary_key=True)
+    course_id = db.Column(db.ForeignKey('Courses.id'), primary_key=True)
+    user = db.relationship("Users", back_populates="taudata_courses")
+    course = db.relationship("Courses", back_populates="taudata_users")
+
 
 
 @login_manager.user_loader

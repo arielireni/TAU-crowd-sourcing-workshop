@@ -1,3 +1,5 @@
+import math
+
 from sqlalchemy.orm import aliased
 from apps.authentication.models import *
 
@@ -11,7 +13,6 @@ def get_closest_users(curr_user: Users, k, thres):
         UsersCourses.user_id == curr_user.id, UC1.user_id != curr_user.id).all()
     for pair in similar_courses:
         if pair[1].user_id not in candidates:
-            print(pair)
             candidates[pair[1].user_id] = (0, 0)  # first is sum of rating diff, second is number of courses
             candidates[pair[1].user_id] = (abs(pair[0].rating - pair[1].rating), 1)
         else:
@@ -41,7 +42,7 @@ def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
     return untaken_courses
 
 
-def collaborative_filtering(curr_user: Users, k=5, thres=0, num_recommendations=5):
+def collaborative_filtering(curr_user: Users, k=5, thres=1, num_recommendations=5):
     """ returns a list of course recommendations for curr_user, based on the ratings of the k closest users to him
     (from these who took at least thres courses that curr_user took) on courses that he has not taken. """
     closest_users = get_closest_users(curr_user, k, thres)
@@ -54,4 +55,4 @@ def collaborative_filtering(curr_user: Users, k=5, thres=0, num_recommendations=
 
 def recommend_courses(curr_user: Users):
     num_users = Users.query.count()
-    return collaborative_filtering(curr_user, k=1, thres=1, num_recommendations=5)
+    return collaborative_filtering(curr_user, k=int(math.log(num_users)), thres=1, num_recommendations=5)
