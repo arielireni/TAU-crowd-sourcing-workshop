@@ -17,9 +17,6 @@ $
 $ # Install modules - SQLite Database
 $ pip3 install -r requirements.txt
 $
-$ # OR with PostgreSQL connector
-$ # pip install -r requirements-pgsql.txt
-$
 $ # Set the FLASK_APP environment variable
 $ (Unix/Mac) export FLASK_APP=run.py
 $ (Windows) set FLASK_APP=run.py
@@ -35,7 +32,7 @@ $ # --host=0.0.0.0 - expose the app on all network interfaces (default 127.0.0.1
 $ # --port=5000    - specify the app port (default 5000)  
 $ flask run --host=0.0.0.0 --port=5000
 $
-$ # Access the dashboard in browser: http://127.0.0.1:5000/
+$ # Access the website in browser: http://127.0.0.1:5000/
 ```
 
 > Note: To use the app, please access the registration page and create a new user. After authentication, the app will unlock the private pages.
