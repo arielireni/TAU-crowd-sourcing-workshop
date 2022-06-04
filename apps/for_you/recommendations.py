@@ -27,7 +27,8 @@ def get_closest_users(curr_user: Users, k, thres):
 
 def get_highest_rated_untaken_courses(curr_user: Users, closest_users: list):
     """" Returns a list of untaken courses sorted by the highest average rating from closest_users, descending. """
-    taken_courses = [course.course_id for course in curr_user.courses]
+    # taken_courses = [course.course_id for course in curr_user.courses]
+    taken_courses = [a.course_id for a in curr_user.taudata_courses]
     untaken_courses = Courses.query.filter(Courses.id.notin_(taken_courses)).all()
     closest_users_opinions = UsersCourses.query.filter(UsersCourses.user_id.in_(closest_users),
                                                        ).all()
@@ -55,4 +56,4 @@ def collaborative_filtering(curr_user: Users, k=5, thres=1, num_recommendations=
 
 def recommend_courses(curr_user: Users):
     num_users = Users.query.count()
-    return collaborative_filtering(curr_user, k=int(math.log(num_users)), thres=1, num_recommendations=5)
+    return collaborative_filtering(curr_user, k=int(math.log(num_users)), thres=2, num_recommendations=5)
