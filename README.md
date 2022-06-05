@@ -11,8 +11,8 @@ $ virtualenv env
 $ source env/bin/activate
 $
 $ # Virtualenv modules installation (Windows based systems)
-$ # virtualenv env
-$ # .\env\Scripts\activate
+$ virtualenv env
+$ .\env\Scripts\activate
 $
 $ # Install modules - SQLite Database
 $ pip3 install -r requirements.txt
