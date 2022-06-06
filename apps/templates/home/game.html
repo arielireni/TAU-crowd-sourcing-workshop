@@ -13,7 +13,8 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h1 style="color: #5e9ca0; text-align: center; margin-bottom: 25px ">Let's Play!</h1>
-                        <h6 style="text-align: center" id="instructions">Play & rate courses you have finished in order to gain credits and get better personalized recommendations!</h6>
+                        <h6 style="text-align: center" id="instructions">Play & rate courses you have finished in order
+                            to gain credits and get better personalized recommendations!</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -39,22 +40,27 @@
                                     </style>
                                 </head>
                                 <body>
-                                <form id="submitCourse" method="post" style="text-align: center">
-                                    <p style="text-align: center">
-                                        <select name="course" id="course" aria-label="Default select example"
-                                                style="text-align: center">
-                                            {% for course in courses %}
-                                                <option value="{{ course.name }}">{{ course.name }}</option>
-                                            {% endfor %}
+                                {% if courses|length == 0 %}
+                                    <h6 style="text-align: center; color:blue">According to our records, you don't have any courses left that you have completed and have not rated.
+                                    <br> To unlock this feature, you must complete additional courses.</h6>
+                                {% else %}
+                                    <form id="submitCourse" method="post" style="text-align: center">
+                                        <p style="text-align: center">
+                                            <select name="course" id="course" aria-label="Default select example"
+                                                    style="text-align: center">
+                                                {% for course in courses %}
+                                                    <option value="{{ course.name }}">{{ course.name }}</option>
+                                                {% endfor %}
 
-                                        </select>
+                                            </select>
+                                        </p>
+                                    </form>
+                                    <p style="text-align: center">
+                                        <button onclick="game()" class="btn btn-primary pull-right btn-lg"
+                                                id="startGameButton">start
+                                        </button>
                                     </p>
-                                </form>
-                                <p style="text-align: center">
-                                    <button onclick="game()" class="btn btn-primary pull-right btn-lg"
-                                            id="startGameButton">start
-                                    </button>
-                                </p>
+                                {% endif %}
                                 <h5 id="question-area" style="color: #3498DB; text-align: center"></h5>
                                 <p></p>
                                 <canvas id="game-area" style="text-align: center"></canvas>

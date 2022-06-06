@@ -6,13 +6,10 @@
 $ # Get the code
 $ git clone https://github.com/arielireni/TAU-crowd-sourcing-workshop
 $
-$ # Virtualenv modules installation (Unix based systems)
+$ # Virtualenv modules installation
 $ virtualenv env
-$ source env/bin/activate
-$
-$ # Virtualenv modules installation (Windows based systems)
-$ virtualenv env
-$ .\env\Scripts\activate
+$ (Unix/Mac) source env/bin/activate
+$ (Windows/Powershell) .\env\Scripts\activate
 $
 $ # Install modules - SQLite Database
 $ pip3 install -r requirements.txt
