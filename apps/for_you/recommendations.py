@@ -56,4 +56,4 @@ def collaborative_filtering(curr_user: Users, k=5, thres=1, num_recommendations=
 
 def recommend_courses(curr_user: Users):
     num_users = Users.query.count()
-    return collaborative_filtering(curr_user, k=int(math.log(num_users)), thres=2, num_recommendations=5)
+    return collaborative_filtering(curr_user, k=int(math.log(num_users)), thres=1, num_recommendations=5)
